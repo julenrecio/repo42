@@ -6,13 +6,13 @@
 /*   By: jrecio-t <jrecio-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 14:55:19 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/04/30 15:56:09 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/04 12:51:44 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	num_builder(const char *nptr, int nb)
+static int	num_builder(const char *nptr, int nb)
 {
 	while ((*nptr >= '0' && *nptr <= '9'))
 	{

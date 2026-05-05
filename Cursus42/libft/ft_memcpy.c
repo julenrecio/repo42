@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 16:37:37 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/05/01 11:39:01 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/04 10:47:10 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	char		*d;
 	const char	*s;
 
-	d = (char *)dest;
-	s = (const char *)src;
-	if (dest == NULL && src == NULL)
+	d = dest;
+	s = src;
+	if (d == NULL && s == NULL)
 	{
 		return (NULL);
 	}
@@ -36,10 +36,10 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 /*
 #include <stdio.h>
 int main() {
-	char csrc[] = "Word";
-	char cdest[5];
+	char src[] = "Word";
+	char dest[5];
 	
-	ft_memcpy(cdest, csrc, sizeof(csrc)); 
-	printf("%s", cdest);
+	ft_memcpy(dest, src, sizeof(src)); 
+	printf("%s", dest);
 }
 */

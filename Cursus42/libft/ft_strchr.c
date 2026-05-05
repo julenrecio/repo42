@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 15:16:49 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/04/30 17:26:53 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/04 11:22:22 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ char	*ft_strchr(const char *s, int c)
 #include <stdio.h>
 int main()
 {
-	const char *str1 = "prueb";
-	const char *str2 = "prueba";
-	int c = 97;
+	const char *str1 = "test";
+	const char *str2 = "tst";
+	int c = 101;
 	
-	printf("%p\n", ft_strchr(str2, c));
-	printf("%s", ft_strchr(str1, c));
+	printf("%s\n", ft_strchr(str1, c));
+	printf("%s", ft_strchr(str2, c));
 }
 */

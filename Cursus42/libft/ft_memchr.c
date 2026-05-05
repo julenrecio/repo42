@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 11:35:59 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/04/27 11:13:57 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/04 10:01:06 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	*ft_memchr(const void *s, int c, size_t n)
 int main()
 {
 	printf("%s\n", (char *)ft_memchr("helloworlda", 97, 11));
-	printf("%s\n", (char *)ft_memchr("helloworldabcde", 97, 11));
 	printf("%s", (char *)ft_memchr("helloworlda", 97, 10));
 	printf("%s", (char *)ft_memchr("helloworld", 97, 20));
 }

@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 12:48:33 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/04/30 17:22:19 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/04 11:44:32 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 char	*ft_strdup(const char *s)
 {
-	int		slen;
+	int		size;
 	char	*ptr;
 
-	slen = ft_strlen(s) + 1;
-	ptr = malloc(slen);
+	size = ft_strlen(s) + 1;
+	ptr = malloc(size);
 	if (ptr == NULL)
 	{
 		return (NULL);
@@ -30,7 +30,7 @@ char	*ft_strdup(const char *s)
 		s++;
 	}
 	*ptr = '\0';
-	return (ptr - (slen - 1));
+	return (ptr - (size - 1));
 }
 
 /*

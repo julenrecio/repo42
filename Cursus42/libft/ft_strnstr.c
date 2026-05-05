@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 11:43:51 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/04/27 14:53:44 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/04 12:15:54 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 #include <stdio.h>
 int	main(void)
 {
-	printf("%s\n", ft_strnstr("mundohola", "hola", 12));
-	printf("%s\n", ft_strnstr("mundohola", "", 12));
-	printf("%s", ft_strnstr("mundohol", "hola", 12));
+	printf("%s\n", ft_strnstr("worldhello", "hello", 10));
+	printf("%s\n", ft_strnstr("worldhello", "", 10));
+	printf("%s", ft_strnstr("worldhel", "hello", 10));
 }
 */

@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 11:04:55 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/04/30 12:54:05 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/04 12:13:42 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 #include <stdio.h>
 int	main(void)
 {
-	printf("%d\n", ft_strncmp("holamundo", "hola", 4));
-	printf("%d\n", ft_strncmp("holamundo", "holb", 4));
-	printf("%d\n", ft_strncmp("holamundo", "holA", 4));
-	printf("%d", ft_strncmp("holamundo", "holA", 3));
+	printf("%d\n", ft_strncmp("helloworld", "hello", 5));
+	printf("%d\n", ft_strncmp("helloworld", "hello36737", 5));
+	printf("%d\n", ft_strncmp("helloworld", "hella", 5));
+	printf("%d", ft_strncmp("helloworld", "hellp", 5));
 }
 */

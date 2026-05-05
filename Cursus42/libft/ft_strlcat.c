@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 12:22:04 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/05/01 11:34:58 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/04 12:01:45 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 int	main()
 {
 	int		length;
-	char	src[] = "palabra1";
-	char	dst[] = "palabra2";
+	char	src[] = "word1";
+	char	dst[11] = "word2";
 	char	*ptr1 = src;
 	char	*ptr2 = dst;
 	length = ft_strlcat(ptr2, ptr1, sizeof(dst));
-	printf("%d\n", length);
+	printf("%zu\n", length);
 	printf("%s", dst);
 }
 */

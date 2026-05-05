@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 12:45:15 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/04/21 15:22:10 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/04 11:19:24 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,14 @@
 
 void	*ft_memset(void *s, int c, size_t n)
 {
-	unsigned long int	i;
-	unsigned char		*p;
+	unsigned char	*p;
 
-	i = 0;
 	p = s;
-	while (i < n)
+	while (n > 0)
 	{
 		*p = c;
 		p++;
-		i++;
+		n--;
 	}
 	return (s);
 }
@@ -32,8 +30,8 @@ void	*ft_memset(void *s, int c, size_t n)
 #include <stdio.h>
 int	main(void)
 {
-	char	str[20] = "hola   mundo";
-	ft_memset(str + 4, '*', 3);
+	char str[20] = "hello   world";
+	ft_memset(str + 5, '*', 3);
 	printf("%s\n", str);
 }
 */

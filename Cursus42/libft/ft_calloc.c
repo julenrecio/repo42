@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 11:18:27 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/05/01 12:08:26 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/04 09:49:45 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,12 @@ void	*ft_calloc(size_t nmemb, size_t size)
 #include <stdio.h>
 int main()
 {
-	printf("%s\n", (char *)ft_calloc(20, sizeof(char)));
+	char *p = ft_calloc(10, sizeof(char));
+	char *end = p + 10;
+	while (p < end)
+	{
+		printf("%d ", *p);
+		p++;
+	}
 }
 */

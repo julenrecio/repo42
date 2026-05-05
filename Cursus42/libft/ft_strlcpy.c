@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 18:26:58 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/04/30 12:29:00 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/04 12:14:16 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,12 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 int	main()
 {
 	int		src_size;
-	char	src[] = "palabra";
-	char	dest[8];
+	char	src[] = "test";
+	char	dest[5];
 	char	*ptr1 = src;
 	char	*ptr2 = dest;
-	src_size = ft_strlcpy(ptr2, ptr1, 8);
-	printf("%d", src_size);
+	src_size = ft_strlcpy(ptr2, ptr1, 5);
+	printf("%d\n", src_size);
+	printf("%s", dest);
 }
 */
