@@ -6,13 +6,13 @@
 /*   By: jrecio-t <jrecio-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 12:24:59 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/05/05 11:50:31 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/07 17:42:26 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	aux(size_t length, char *str, const char *p)
+void	loop(size_t length, char *str, const char *p)
 {
 	while (length > 0)
 	{
@@ -45,7 +45,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (NULL);
 	result = str;
 	p = s + start;
-	aux(length, str, p);
+	loop(length, str, p);
 	result[length] = '\0';
 	return (result);
 }

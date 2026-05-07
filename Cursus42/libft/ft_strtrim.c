@@ -6,13 +6,13 @@
 /*   By: jrecio-t <jrecio-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 16:32:48 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/05/05 17:37:14 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/06 11:47:31 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*aux3(void)
+char	*aux(void)
 {
 	char	*str;
 
@@ -27,7 +27,7 @@ char	*aux2(char const *s1, const char *word_end, size_t i)
 {
 	char	*str;
 
-	str = malloc(i);
+	str = malloc(i + 1);
 	if (!str)
 		return (0);
 	while (s1 != word_end)
@@ -37,7 +37,7 @@ char	*aux2(char const *s1, const char *word_end, size_t i)
 		s1++;
 	}
 	*str = '\0';
-	return (str - (i - 1));
+	return (str - i);
 }
 
 char	*ft_strtrim(char const *s1, char const *set)
@@ -58,13 +58,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 		s1--;
 	word_end = s1 + 1;
 	if (word_end == word_start)
-		return (aux3());
-	i = 2;
-	while (s1 != word_start)
-	{
-		i++;
-		s1--;
-	}
+		return (aux());
+	i = word_end - word_start;
 	return (aux2(word_start, word_end, i));
 }
 
