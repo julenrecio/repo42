@@ -6,13 +6,13 @@
 /*   By: jrecio-t <jrecio-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 16:32:48 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/05/06 11:47:31 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/11 16:51:10 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*aux(void)
+static char	*aux(void)
 {
 	char	*str;
 
@@ -23,7 +23,7 @@ char	*aux(void)
 	return (str);
 }
 
-char	*aux2(char const *s1, const char *word_end, size_t i)
+static char	*aux2(char const *s1, const char *word_end, size_t i)
 {
 	char	*str;
 

@@ -6,13 +6,13 @@
 /*   By: jrecio-t <jrecio-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 12:24:59 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/05/07 17:42:26 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/11 16:51:19 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	loop(size_t length, char *str, const char *p)
+static void	loop(size_t length, char *str, const char *p)
 {
 	while (length > 0)
 	{
