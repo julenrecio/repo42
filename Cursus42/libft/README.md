@@ -147,17 +147,12 @@ You must also include the header file:
 
 ### Documentation and references
 
-- [The Open Group - C Library Functions](https://pubs.opengroup.org/onlinepubs/9699919799/?utm_source=chatgpt.com)
-- [Linux man-pages project](https://man7.org/linux/man-pages/?utm_source=chatgpt.com)
-- [GNU C Library Documentation](https://www.gnu.org/software/libc/manual/?utm_source=chatgpt.com)
-- [cppreference - C library reference](https://en.cppreference.com/w/c?utm_source=chatgpt.com)
+- [Linux man-pages project](https://man7.org/linux/man-pages/man3/strlen.3.html)
+- [Python/C tutor](https://pythontutor.com/index.html)
+- [String functions in C](https://www.geeksforgeeks.org/c/string-functions-in-c/)
 
 ### AI Usage
 
 AI tools were used during the development of this project as educational support for:
-- Understanding the behavior of standard C library functions
 - Solving conceptual questions related to memory management and pointers
-- Reviewing linked list and string manipulation concepts
 - Assisting with debugging and error analysis
-
-The final implementation, understanding, and validation of the code were completed manually.
