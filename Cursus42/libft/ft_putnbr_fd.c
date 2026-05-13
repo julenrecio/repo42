@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 15:40:11 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/05/11 16:43:39 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/13 14:07:27 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,13 @@ void	ft_putnbr_fd(int n, int fd)
 #include <fcntl.h>
 int main()
 {
-	int nb = 2147483647;
 	int fd = open("text.txt", O_WRONLY | O_CREAT, 0644);
-	ft_putnbr_fd(nb, fd);
+	ft_putnbr_fd(2147483647, fd);
+	write(fd, "\n", 1);
+	ft_putnbr_fd(-42, fd);
+	write(fd, "\n", 1);
+	ft_putnbr_fd(42, fd);
+	write(fd, "\n", 1);
+	ft_putnbr_fd(3747, fd);
 }
 */

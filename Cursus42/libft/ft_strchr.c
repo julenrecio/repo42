@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 15:16:49 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/05/04 11:22:22 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/13 15:33:01 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int main()
 {
 	const char *str1 = "test";
 	const char *str2 = "tst";
-	int c = 101;
+	int c = 'e';
 	
 	printf("%s\n", ft_strchr(str1, c));
 	printf("%s", ft_strchr(str2, c));

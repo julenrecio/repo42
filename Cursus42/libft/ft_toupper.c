@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 14:56:43 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/04/24 10:55:53 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/13 15:38:48 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ int	ft_toupper(int c)
 #include <stdio.h>
 int main()
 {
-	printf("%d", ft_toupper(100));
+	printf("%c", (char)ft_toupper('f'));
 }
 */

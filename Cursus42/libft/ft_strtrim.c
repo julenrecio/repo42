@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 16:32:48 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/05/11 16:51:10 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/13 15:33:57 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,6 @@ char	*ft_strtrim(char const *s1, char const *set)
 #include <stdio.h>
 int main()
 {
-	printf("%s", ft_strtrim("     ", " "));
+	printf("%s", ft_strtrim("abcHelloabc", "abc"));
 }
 */

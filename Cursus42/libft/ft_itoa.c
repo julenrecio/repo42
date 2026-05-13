@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 09:17:34 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/05/11 16:48:42 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/13 13:56:11 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,9 @@ char	*ft_itoa(int n)
 #include <stdio.h>
 int main()
 {
-	int nb = 4246757;
-	printf("%s", ft_itoa(nb));
-	
+	printf("%s\n", ft_itoa(42));
+	printf("%s\n", ft_itoa(4246757));
+	printf("%s\n", ft_itoa(-42));
+	printf("%s", ft_itoa(-4246757));
 }
 */

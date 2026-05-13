@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 12:22:04 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/05/04 12:01:45 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/13 15:24:51 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	main()
 	char	*ptr1 = src;
 	char	*ptr2 = dst;
 	length = ft_strlcat(ptr2, ptr1, sizeof(dst));
-	printf("%zu\n", length);
+	printf("%d\n", length);
 	printf("%s", dst);
 }
 */

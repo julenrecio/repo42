@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 11:18:27 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/05/04 09:49:45 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/13 13:21:04 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,19 @@
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
-	char	*ptr;
+	void	*ptr;
 	size_t	bytes;
 
-	bytes = nmemb * size;
-	if (bytes == 0)
-	{
+	if (size != 0 && nmemb > SIZE_MAX / size)
 		return (NULL);
-	}
+	bytes = nmemb * size;
 	ptr = malloc(bytes);
 	if (ptr == NULL)
 	{
 		return (NULL);
 	}
-	while (bytes > 0)
-	{
-		*ptr = '\0';
-		ptr++;
-		bytes--;
-	}
-	return ((void *)(ptr - (nmemb * size)));
+	ft_bzero(ptr, bytes);
+	return (ptr);
 }
 
 /*

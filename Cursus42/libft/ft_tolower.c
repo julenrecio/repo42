@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 15:06:29 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/04/24 10:55:36 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/13 15:38:00 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ int	ft_tolower(int c)
 #include <stdio.h>
 int main()
 {
-	printf("%d", ft_tolower(70));
+	printf("%c", (char)ft_tolower('F'));
 }
 */
