@@ -1,22 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf.h                                           :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/18 17:33:17 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/05/18 17:39:26 by jrecio-t         ###   ########.fr       */
+/*   Created: 2026/04/28 12:48:33 by jrecio-t          #+#    #+#             */
+/*   Updated: 2026/05/13 16:29:39 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRINTF_H
-# define PRINTF_H
+#include "libft.h"
 
-# include <stdio.h>
-# include <stdarg.h>
-# include <unistd.h>
+char	*ft_strdup(const char *s)
+{
+	int		size;
+	char	*ptr;
 
-int	ft_printf(char const *format, ...);
+	size = ft_strlen(s) + 1;
+	ptr = malloc(size);
+	if (ptr == NULL)
+	{
+		return (NULL);
+	}
+	while (*s)
+	{
+		*ptr = *s;
+		ptr++;
+		s++;
+	}
+	*ptr = '\0';
+	return (ptr - (size - 1));
+}
 
-#endif
+/*
+#include <stdio.h>
+int main()
+{
+	const char *s = "helloworld";
+	printf("%s", ft_strdup(s));
+}
+*/

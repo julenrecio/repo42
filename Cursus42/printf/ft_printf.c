@@ -6,67 +6,97 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 11:18:41 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/05/18 17:41:05 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/20 17:38:05 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdarg.h>
-#include <unistd.h>
+#include "ft_printf.h"
 
-int	ft_printf(char const *format, ...)
+int	ft_printf_character(char c)
 {
-	va_list	args;
-	char	*string;
-	int		count;
+	return (write(1, &c, 1));
+}
+/*
+int	ft_printf_unsigned_hex(unsigned int i)
+{
+	return (0);
+}
 
-	va_start(args, format);
-	string = va_arg(args, char *);
-	va_end(args);
+int	ft_printf_pointer(char *p)
+{
+	return (0);
+}
+*/
+
+int	ft_printf_string(char *str)
+{
+	int	count;
+
 	count = 0;
-	while (*string)
+	while (*str)
 	{
-		write(1, string, 1);
-		string++;
-		count++;
+		count += write(1, str, 1);
+		str++;
 	}
 	return (count);
 }
 
+int	ft_check_especifier(char const *format, va_list args)
+{
+	if (*format == 'c')
+		return (ft_printf_character(va_arg(args, int)));
+	else if (*format == 'd' || *format == 'i')
+		return (ft_printf_decimal(va_arg(args, int)));
+	//else if (*format == 'x' || *format == 'X')
+		//return (ft_printf_unsigned_hex(va_arg(args, unsigned int)));
+	//else if (*format == 'p')
+		//return (ft_printf_pointer(va_arg(args, char *)));
+	else if (*format == 'u')
+		return (ft_printf_unsigned_decimal(va_arg(args, unsigned int)));
+	else if (*format == 's')
+		return (ft_printf_string(va_arg(args, char *)));
+	else if (*format == '%')
+		return (write(1, "%", 1));
+	else
+		return (0);
+}
+
+int	ft_printf(char const *format, ...)
+{
+	va_list	args;
+	int		count;
+
+	va_start(args, format);
+	while (*format)
+	{
+		if (*format == '%')
+		{
+			format++;
+			count = ft_check_especifier(format, args);
+		}
+		else
+			write(1, format, 1);
+		format++;
+	}
+	va_end(args);
+	return (count);
+}
+/*
+#include <stdio.h>
 int	main(void)
 {
-	ft_printf("Imprimir un string: %s", "Hello");
-	ft_printf("Imprimir un string: %s", "world");
-	/*
-	printf("%3$d, %1$d, %2$d", 2, 5, 1);
-	printf("\n");
-	printf("%03d", 1);
-	printf("\n");
-	printf("%03d", 100);
-	printf("\n");
-	printf("%#f", 3.14);
-	printf("\n");
-	printf("%#f", 42.42);
-	printf("\n");
-	printf("%*d, %*d", 0, 10, 10, 5);
-	printf("\n");
-	printf("%.*s", 3, "abcdef");
-	printf("\n");
-	printf("%.*f", 3, 42.4242);
-	printf("\n");
-	printf("%.3s", "abcdef");
-	printf("\n");
-	printf("%.3f", 42.4242);
-	printf("\n");
-	printf("%.4f", 42.4242);
-	printf("\n");
-	printf("%hhd", 'a');
-	printf("\n");
-	printf("%u", -10);
-	printf("\n");
-	printf("%o", 10);
-	printf("\n");
-	printf("%%");
-	printf("\n"); 
-	*/
+	int count = 0;
+	count = ft_printf("Print a character: %c --> My printf\n", 'X');
+	printf("Print a character: %c\n", 'X');
+	printf("Number of bytes: %d\n", count);
+	count = ft_printf("Print a string: %s --> My printf\n", "Hello world");
+	printf("Print a string: %s\n", "Hello world");
+	printf("Number of bytes: %d\n", count);
+	count = ft_printf("Print an integer: %d --> My printf\n", 425785);
+	printf("Print an integer: %d\n", 425785);
+	printf("Number of bytes: %d\n", count);
+	count = ft_printf("Print an unsigned integer: %u --> My printf\n", -1);
+	printf("Print an unsigned integer: %u\n", -1);
+	printf("Number of bytes: %u\n", count);
 }
+*/
