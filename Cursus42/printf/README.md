@@ -134,3 +134,23 @@ AI tools were used during the development of this project as educational support
 - Understanding variadic functions (`stdarg.h`)
 - Clarifying the behavior of format specifiers
 - Assisting with debugging and memory-related issues
+
+## Algorithm and Structure Choices
+
+The project is based on a linear parsing algorithm that reads the format string character by character.
+
+The `ft_printf` function detects `%` symbols and delegates the corresponding conversion to `ft_check_especifier`, which acts as a dispatcher for each supported format specifier (`%c`, `%d`, `%x`, `%p`, etc.).
+
+This modular design was chosen to:
+- Keep the code organized and readable
+- Separate each conversion type into independent functions
+- Simplify maintenance and debugging
+- Make the project easier to extend
+
+The implementation uses:
+- Variadic arguments through `va_list`
+- Sequential string traversal
+- Recursive number conversion for numeric formats
+- Low-level output using `write`
+
+No complex data structures were required for the project.
