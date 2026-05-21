@@ -1,51 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_number.c                                 :+:      :+:    :+:   */
+/*   ft_printf_pointer.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/20 11:32:24 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/05/21 13:21:23 by jrecio-t         ###   ########.fr       */
+/*   Created: 2026/05/21 15:17:16 by jrecio-t          #+#    #+#             */
+/*   Updated: 2026/05/21 16:19:15 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_printf_decimal(int n)
+static int	ft_printf_pointer_aux(size_t i)
 {
 	int count;
 
 	count = 0;
-	if (n == -2147483648)
+	if (i >= 16)
 	{
-		count += write(1, "-2147483648", 11);
-		return (count);
+		count += ft_printf_pointer_aux(i / 16);
 	}
-	if (n < 0)
+	if (i % 16 >= 10)
 	{
-		n = -n;
-		count += write(1, "-", 1);
+		i = (i % 16) + 87;
+		count += write(1, &i, 1);
 	}
-	if (n >= 10)
+	else
 	{
-		count += ft_printf_decimal(n / 10);
+		i = (i % 16) + 48;
+		count += write(1, &i, 1);
 	}
-	n = (n % 10) + '0';
-	count += write(1, &n, 1);
 	return (count);
 }
 
-int	ft_printf_unsigned_decimal(unsigned int n)
+int	ft_printf_pointer(size_t p)
 {
 	int count;
 
 	count = 0;
-	if (n >= 10)
-	{
-		count += ft_printf_unsigned_decimal(n / 10);
-	}
-	n = (n % 10) + '0';
-	count += write(1, &n, 1);
-	return (count);
+	if (!p)
+		return(write(1, "(nil)", 5));
+	count += write(1, "0x", 2);
+	return (count + ft_printf_pointer_aux(p));
 }

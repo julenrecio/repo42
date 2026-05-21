@@ -1,30 +1,23 @@
 NAME=libftprintf.a
 CC=cc
 CFLAGS=-c -Wall -Wextra -Werror
-SOURCE=ft_printf.c ft_printf_number.c
+SOURCE=ft_printf.c ft_printf_number.c ft_printf_hex.c ft_printf_pointer.c
 OBJ = $(SOURCE:.c=.o)
-LIBFT=./libft/libft.a
 
 .PHONY: all clean fclean re
 
 all: $(NAME)
 
-$(LIBFT):
-	make -C ./libft
-
-$(NAME): $(OBJ) $(LIBFT)
-	cp $(LIBFT) $(NAME)
-	$(AR) rcs $(NAME) $(OBJ)
+$(NAME): $(OBJ)
+	$(AR) -r $@ $?
 
 %.o: %.c
 	$(CC) $(CFLAGS) $< -o $@
 
 clean:
 	rm -f $(OBJ)
-	make -C ./libft clean
 
 fclean: clean
 	rm -f $(NAME)
-	make -C ./libft fclean
 
 re: fclean all

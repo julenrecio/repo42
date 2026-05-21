@@ -1,43 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_printf_hex.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/28 12:48:33 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/05/13 16:29:39 by jrecio-t         ###   ########.fr       */
+/*   Created: 2026/05/21 13:22:33 by jrecio-t          #+#    #+#             */
+/*   Updated: 2026/05/21 15:13:07 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-char	*ft_strdup(const char *s)
+int	ft_printf_hex(unsigned int i, int mayus)
 {
-	int		size;
-	char	*ptr;
+	int count;
 
-	size = ft_strlen(s) + 1;
-	ptr = malloc(size);
-	if (ptr == NULL)
+	count = 0;
+	if (i >= 16)
 	{
-		return (NULL);
+		count += ft_printf_hex(i / 16, mayus);
 	}
-	while (*s)
+	if (i % 16 >= 10)
 	{
-		*ptr = *s;
-		ptr++;
-		s++;
+		if (mayus)
+		{
+			i = (i % 16) + 65 - 10;
+			count += write(1, &i, 1);
+		}
+		else
+		{
+			i = (i % 16) + 97 - 10;
+			count += write(1, &i, 1);
+		}
 	}
-	*ptr = '\0';
-	return (ptr - (size - 1));
+	else
+	{
+		i = (i % 16) + 48;
+		count += write(1, &i, 1);
+	}
+	
+	return (count);
 }
-
-/*
-#include <stdio.h>
-int main()
-{
-	const char *s = "helloworld";
-	printf("%s", ft_strdup(s));
-}
-*/
