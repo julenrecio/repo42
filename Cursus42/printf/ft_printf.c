@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 11:18:41 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/05/21 16:33:29 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/21 16:54:49 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,11 @@ int	main(void)
 	int count1 = 0;
 	int count2 = 0;
 	int var = 0;;
-	count1 = ft_printf("%c %s %p %d %i %u %x %X %%", 'a', "string", &var, 42, -42, 256, 1000, 1000);
+	count1 = ft_printf("%c %s %p %d %i %u %x %X %%", 
+	'a', "string", &var, 42, -42, 256, 1000, 1000);
 	printf("\n");
-	count2 = printf("%c %s %p %d %i %u %x %X %%", 'a', "string", &var, 42, -42, 256, 1000, 1000);
+	count2 = printf("%c %s %p %d %i %u %x %X %%", 
+	'a', "string", &var, 42, -42, 256, 1000, 1000);
 	printf("\n");
 	printf("Bytes: %d\n", count1);
 	printf("Bytes: %d\n", count2);

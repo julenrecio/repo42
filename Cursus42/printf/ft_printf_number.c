@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/20 11:32:24 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/05/21 13:21:23 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/21 16:55:26 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_printf_decimal(int n)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	if (n == -2147483648)
@@ -38,7 +38,7 @@ int	ft_printf_decimal(int n)
 
 int	ft_printf_unsigned_decimal(unsigned int n)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	if (n >= 10)
