@@ -6,42 +6,28 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 12:58:59 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/05/25 16:35:23 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/26 13:17:12 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*get_next_line(int fd, int buffer_size)
+char	*get_next_line(int fd)
 {
-	char	buf[buffer_size + 1];
+	char	buf[BUFFER_SIZE + 1];
 	ssize_t	n;
 
-	n = 0;
-	if (fd == -1)
-	{
-		perror("open");
-		exit(1);
-	}
-	
-	n = read(fd, buf, buffer_size);
-	while (n > 0)
-	{
-		buf[n] = '\0';
-		if ((write(STDOUT_FILENO, buf, n)) == -1)
-		{
-			perror("write");
-			exit(1);
-		}
-	}
+	n = read(fd, buf, BUFFER_SIZE);
+	buf[n] = '\0';
+	write(1, buf, n);
 	close(fd);
 	exit(0);
 }
 
-int	main()
+int	main(void)
 {
-	int		fd;
+	int	fd;
 
 	fd = open("file.txt", O_RDWR | O_CREAT, 0777);
-	get_next_line(fd, BUFFER_SIZE);
+	get_next_line(fd);
 }
