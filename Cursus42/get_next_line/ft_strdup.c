@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/25 16:17:16 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/05/27 15:49:04 by jrecio-t         ###   ########.fr       */
+/*   Created: 2026/04/28 12:48:33 by jrecio-t          #+#    #+#             */
+/*   Updated: 2026/05/27 16:19:40 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "get_next_line.h"
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 5
-# endif
+char	*ft_strdup(const char *s)
+{
+	int		size;
+	char	*ptr;
 
-# include <fcntl.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-
-char	*get_next_line(int fd);
-char	*ft_strdup(const char *s);
-
-#endif
+	size = strlen(s) + 1;
+	ptr = malloc(size);
+	if (ptr == NULL)
+	{
+		return (NULL);
+	}
+	while (*s)
+	{
+		*ptr = *s;
+		ptr++;
+		s++;
+	}
+	*ptr = '\0';
+	return (ptr - (size - 1));
+}
