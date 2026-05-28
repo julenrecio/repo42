@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 12:58:59 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/05/27 16:46:06 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/28 18:38:47 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,28 @@ char	*get_next_line(int fd)
 {
 	char		buf[BUFFER_SIZE + 1];
 	static char	*stash;
-	size_t		byte;
-	size_t		n;
+	char		*line;
 	size_t		i;
 
-	while ((byte = read(fd, buf, BUFFER_SIZE)) > 0)
+	stash = malloc(1);
+	line = malloc(1);
+	buf[BUFFER_SIZE] = '\0';
+	while (read(fd, buf, BUFFER_SIZE > 0))
 	{
-		i = 0;
-		while (i < byte)
+		stash = ft_strjoin(stash, buf);
+		while (*stash)
 		{
-			if (buf[i] != '\n')
+			if (*stash == '\n')
 			{
-				i++;
-				n++;
+				line = stash;
 			}
 			else
-				i = byte;
-		}
+			{
+				i++;
+			}
+		}	
 	}
-	stash = malloc(n + 1);
-	return (stash);
+	return (line);
 }
 
 int	main(void)
@@ -43,7 +45,7 @@ int	main(void)
 	int		fd;
 	char	*str;
 
-	fd = open("file.txt", O_RDWR | O_CREAT, 0777);
+	fd = open("file.txt", O_RDONLY);
 	str = get_next_line(fd);
 	printf("%s", str);
 	close(fd);

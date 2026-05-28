@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 16:17:16 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/05/27 15:49:04 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/28 11:51:46 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@
 
 char	*get_next_line(int fd);
 char	*ft_strdup(const char *s);
+char	*ft_strjoin(char const *s1, char const *s2);
 
 #endif
