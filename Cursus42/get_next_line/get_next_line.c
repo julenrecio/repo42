@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 12:58:59 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/05/29 13:34:15 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/05/31 21:07:24 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,12 @@ char	*get_next_line(int fd)
 	char		*line;
 	int			i;
 	int			j;
+	ssize_t		bytes;
 
-	/*if (!stash)
-	{
-		stash = malloc(1);
-		stash[0] = '\0';
-	}*/
-	buf[BUFFER_SIZE] = '\0';
 	line = NULL;
-	while (read(fd, buf, BUFFER_SIZE) > 0)
+	bytes = read(fd, buf, BUFFER_SIZE);
+	buf[bytes] = '\0';
+	while (bytes == BUFFER_SIZE)
 	{
 		i = 0;
 		j = 0;
@@ -41,19 +38,13 @@ char	*get_next_line(int fd)
 				return (line);
 			}
 			else
-			{
 				i++;
-			}
 			j++;
 		}
+		bytes = read(fd, buf, BUFFER_SIZE);
 	}
-	if (read(fd, buf, BUFFER_SIZE) == 0)
-	{
-		line = ft_strjoin(stash, buf);
-		return (line);
-	}
-	else
-		return (NULL);
+	buf[bytes] = '\0';
+	return (ft_strjoin(stash, buf));
 }
 
 int	main(void)
@@ -66,8 +57,9 @@ int	main(void)
 	//	printf("%s", str);
 
 	printf("%s", get_next_line(fd));
-		printf("%s", get_next_line(fd));
-			printf("%s", get_next_line(fd));
-		printf("%s", get_next_line(fd));
-
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
 }

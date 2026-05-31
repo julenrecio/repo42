@@ -32,8 +32,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	if (s1 == NULL)
 		return (ft_strdup(s2));
-	else if (s2  == NULL)
-		return (ft_strdup(s1));
 	str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!str)
 		return (NULL);
@@ -92,23 +90,14 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	char		*str;
 	char		*result;
 	size_t		slen;
-	size_t		length;
 
-	if (s == NULL)
-		return (NULL);
 	slen = ft_strlen(s);
-	if (start >= slen)
-		length = 0;
-	else if (len > slen - start)
-		length = slen - start;
-	else
-		length = len;
-	str = malloc(length + 1);
+	str = malloc(slen + 1);
 	if (!str)
 		return (NULL);
 	result = str;
 	p = s + start;
-	loop(length, str, p);
-	result[length] = '\0';
+	loop(len, str, p);
+	result[slen] = '\0';
 	return (result);
 }

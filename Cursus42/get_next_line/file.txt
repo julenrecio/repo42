@@ -1,4 +1,5 @@
-Hello_Dolly.
-Goodbye.
-Hello_Dolly.
-1234567
+Esto es
+texto de prueba.
+Algunas líneas
+contienen
+mas texto que otras.
