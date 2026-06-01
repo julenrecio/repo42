@@ -6,13 +6,13 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 15:22:16 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/05/29 13:29:59 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/06/01 17:02:22 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static size_t	ft_strlen(const char *s)
+size_t	ft_strlen(const char *s)
 {
 	size_t	size;
 
@@ -23,6 +23,27 @@ static size_t	ft_strlen(const char *s)
 		size++;
 	}
 	return (size);
+}
+
+static char	*ft_strdup(const char *s)
+{
+	int		size;
+	char	*ptr;
+
+	size = strlen(s) + 1;
+	ptr = malloc(size);
+	if (ptr == NULL)
+	{
+		return (NULL);
+	}
+	while (*s)
+	{
+		*ptr = *s;
+		ptr++;
+		s++;
+	}
+	*ptr = '\0';
+	return (ptr - (size - 1));
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
@@ -52,27 +73,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (p);
 }
 
-char	*ft_strdup(const char *s)
-{
-	int		size;
-	char	*ptr;
-
-	size = strlen(s) + 1;
-	ptr = malloc(size);
-	if (ptr == NULL)
-	{
-		return (NULL);
-	}
-	while (*s)
-	{
-		*ptr = *s;
-		ptr++;
-		s++;
-	}
-	*ptr = '\0';
-	return (ptr - (size - 1));
-}
-
 static void	loop(size_t length, char *str, const char *p)
 {
 	while (length > 0)
@@ -90,14 +90,23 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	char		*str;
 	char		*result;
 	size_t		slen;
+	size_t		length;
 
+	if (s == NULL)
+		return (NULL);
 	slen = ft_strlen(s);
-	str = malloc(slen + 1);
+	if (start >= slen)
+		length = 0;
+	else if (len > slen - start)
+		length = slen - start;
+	else
+		length = len;
+	str = malloc(length + 1);
 	if (!str)
 		return (NULL);
 	result = str;
 	p = s + start;
-	loop(len, str, p);
-	result[slen] = '\0';
+	loop(length, str, p);
+	result[length] = '\0';
 	return (result);
 }
