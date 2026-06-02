@@ -6,29 +6,35 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 12:58:59 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/06/01 17:56:04 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/06/02 17:58:48 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*loop(char *buf)
+char	*loop(char *buf, char **stash)
 {
-	static char	*stash;
 	char		*tmp;
 	char		*line;
 	int			i;
 
 	i = 0;
-	tmp = stash;
-	stash = ft_strjoin(stash, buf);
+	tmp = *stash;
+	*stash = ft_strjoin(*stash, buf);
 	free(tmp);
-	while (stash[i] != '\0')
+	while ((*stash)[i] != '\0')
 	{
-		if (stash[i] == '\n')
+		if ((*stash)[i] == '\n')
 		{
-			line = ft_substr(stash, 0, i + 1);
-			stash = ft_substr(stash, i + 1, ft_strlen(stash) - (i + 1));
+			tmp = *stash;
+			line = ft_substr(*stash, 0, i + 1);
+			*stash = ft_substr(*stash, i + 1, ft_strlen(*stash) - (i + 1));
+			free(tmp);
+			if (**stash == '\0')
+			{
+				free(*stash);
+				*stash = NULL;
+			}
 			return (line);
 		}
 		i++;
@@ -40,27 +46,43 @@ char	*get_next_line(int fd)
 {
 	char		*buf;
 	char		*line;
+	static char	*stash;
 	ssize_t		bytes;
 
-	if (fd == -1)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buf = malloc(BUFFER_SIZE + 1);
-	bytes = read(fd, buf, BUFFER_SIZE);
-	if (bytes <= 0)
+	if (!buf)
 		return (NULL);
-	buf[bytes] = '\0';
+	bytes = read(fd, buf, BUFFER_SIZE);
+	if (bytes < 0)
+	{
+		free(buf);
+		return (NULL);
+	}
 	while (bytes > 0)
 	{
-		line = loop(buf);
+		buf[bytes] = '\0';
+		line = loop(buf, &stash);
 		if (line)
+		{
+			free(buf);
 			return (line);
+		}		
 		bytes = read(fd, buf, BUFFER_SIZE);
-		if (bytes > 0)
-			buf[bytes] = '\0';
 	}
+	if (bytes == 0 && stash && *stash)
+	{
+		free(buf);
+		line = stash;
+		stash = NULL;
+		return (line);
+	}
+	if (buf)
+		free(buf);
 	return (NULL);
 }
-
+/*
 int	main(void)
 {
 	int		fd;
@@ -70,5 +92,8 @@ int	main(void)
 	while ((str = get_next_line(fd)) != NULL)
 	{
 		printf("%s", str);
+		free(str);
 	}
 }
+*/
+

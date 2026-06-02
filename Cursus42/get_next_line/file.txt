@@ -1,5 +1,2 @@
-Esto es
-texto de prueba.
-Algunas líneas
-contienen
-mas texto que otras.
+0123456789012345678901234567890123456789
+0
