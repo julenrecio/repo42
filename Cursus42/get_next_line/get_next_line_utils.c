@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 15:22:16 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/06/02 16:56:43 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/06/03 14:46:54 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ size_t	ft_strlen(const char *s)
 	size_t	size;
 
 	size = 0;
+	if (!s)
+		return (size);
 	while (*s)
 	{
 		s++;
@@ -25,34 +27,15 @@ size_t	ft_strlen(const char *s)
 	return (size);
 }
 
-static char	*ft_strdup(const char *s)
-{
-	int		size;
-	char	*ptr;
-
-	size = strlen(s) + 1;
-	ptr = malloc(size);
-	if (ptr == NULL)
-	{
-		return (NULL);
-	}
-	while (*s)
-	{
-		*ptr = *s;
-		ptr++;
-		s++;
-	}
-	*ptr = '\0';
-	return (ptr - (size - 1));
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*str;
 	char	*p;
 
 	if (s1 == NULL)
-		return (ft_strdup(s2));
+		s1 = "";
+	if (s2 == NULL)
+		s2 = "";
 	str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!str)
 		return (NULL);
