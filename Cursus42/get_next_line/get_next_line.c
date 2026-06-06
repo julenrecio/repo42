@@ -6,11 +6,37 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 12:58:59 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/06/06 19:30:04 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/06/06 21:10:33 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+int	check_bytes(ssize_t bytes, char **stash, char *buf, char **line)
+{
+	if (bytes < 0)
+	{
+		free(buf);
+		free(*stash);
+		*stash = NULL;
+		*line = NULL;
+		return (1);
+	}
+	if (bytes == 0)
+	{
+		free(buf);
+		if (*stash && **stash)
+		{
+			*line = *stash;
+			*stash = NULL;
+		}
+		else
+			*line = NULL;
+		return (1);
+	}
+	buf[bytes] = '\0';
+	return (0);
+}
 
 char	*get_line(char **stash)
 {
@@ -43,7 +69,7 @@ char	*get_next_line(int fd)
 	char		*buf;
 	char		*line;
 	static char	*stash;
-	ssize_t 	bytes;
+	ssize_t		bytes;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -51,39 +77,18 @@ char	*get_next_line(int fd)
 	if (!buf)
 		return (NULL);
 	bytes = 1;
+	line = NULL;
 	while (bytes > 0)
 	{
 		if (ft_strnchr(stash))
-		{
-			line = get_line(&stash);
-			free(buf);
-			return (line);
-		}
+			return (free(buf), get_line(&stash));
 		bytes = read(fd, buf, BUFFER_SIZE);
-		if (bytes < 0)
-		{
-			free(buf);
-			free(stash);
-			stash = NULL;
-			return (NULL);
-		}
-		if (bytes == 0)
-		{
-			free(buf);
-			if (stash && *stash)
-			{
-				line = stash;
-				stash = NULL;
-				return (line);
-			}
-			return (NULL);
-		}
-		buf[bytes] = '\0';
+		if (check_bytes(bytes, &stash, buf, &line))
+			return (line);
 		tmp = stash;
 		stash = ft_strjoin(stash, buf);
 		free(tmp);
 	}
-	free(buf);
 	return (NULL);
 }
 /*

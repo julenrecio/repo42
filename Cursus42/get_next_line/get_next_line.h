@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 16:17:16 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/06/06 18:43:06 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/06/06 20:24:25 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ char	*get_next_line(int fd);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 size_t	ft_strlen(const char *s);
-int     ft_strnchr(char *stash);
+int		ft_strnchr(char *stash);
 
 #endif
