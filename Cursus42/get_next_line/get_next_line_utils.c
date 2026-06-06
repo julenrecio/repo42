@@ -6,11 +6,27 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 15:22:16 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/06/03 14:46:54 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/06/06 18:27:12 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+int	ft_strnchr(char *stash)
+{
+	int	i;
+
+	if (!stash)
+		return (0);
+	i = 0;
+	while (stash[i])
+	{
+		if (stash[i] == '\n')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 size_t	ft_strlen(const char *s)
 {
@@ -56,7 +72,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (p);
 }
 
-static void	loop(size_t length, char *str, const char *p)
+static void	substr_loop(size_t length, char *str, const char *p)
 {
 	while (length > 0)
 	{
@@ -89,7 +105,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (NULL);
 	result = str;
 	p = s + start;
-	loop(length, str, p);
+	substr_loop(length, str, p);
 	result[length] = '\0';
 	return (result);
 }
