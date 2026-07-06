@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 16:17:16 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/06/06 20:24:25 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/06/08 09:23:16 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,8 @@
 #  define BUFFER_SIZE 1
 # endif
 
-# include <fcntl.h>
 # include <unistd.h>
-# include <stdio.h>
 # include <stdlib.h>
-# include <string.h>
 
 char	*get_next_line(int fd);
 char	*ft_strjoin(char *s1, char *s2);

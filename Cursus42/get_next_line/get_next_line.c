@@ -6,13 +6,13 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 12:58:59 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/06/06 21:10:33 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/06/08 09:27:56 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	check_bytes(ssize_t bytes, char **stash, char *buf, char **line)
+static int	check_bytes(ssize_t bytes, char **stash, char *buf, char **line)
 {
 	if (bytes < 0)
 	{
@@ -38,7 +38,7 @@ int	check_bytes(ssize_t bytes, char **stash, char *buf, char **line)
 	return (0);
 }
 
-char	*get_line(char **stash)
+static char	*get_line(char **stash)
 {
 	char	*line;
 	char	*tmp;
@@ -92,15 +92,17 @@ char	*get_next_line(int fd)
 	return (NULL);
 }
 /*
+# include <stdio.h>
+# include <fcntl.h>
 int	main(void)
 {
 	int		fd;
 	char	*str;
 
 	fd = open("file.txt", O_RDONLY);
-	while((str = get_next_line(fd)))
+	while ((str = get_next_line(fd)))
 	{
-		printf("[%s]", str);
+		printf("%s", str);
 		free(str);
 	}
 	close(fd);
