@@ -1,0 +1,141 @@
+Crear VM 	--> 4GB de RAM, 10 GB de almacenamiento, 2 Nucleos, Marcar "Pre-allocate Full Size"
+
+Boot VM  	--> hostame=jrecio-t42, clave root, crear usuario jrecio-t y poner clave
+	 	--> particiones: guiado, encriptado usando LVM, introducir frase de seguridad
+			--> Configurar el gestor de volúmenes lógicos
+				--> Crear dos nuevos, var-log en /var/log y srv en /srv
+	 	--> Instalar el gestor de carga GRUB
+	 	--> Software a elegir: Servidor SSH y utilidades estandar del sistema
+	 
+SSH		--> "systemctl status ssh"
+	 	--> "nano /etc/ssh/sshd_config"
+	 		--> Cambiar puerto 22 por 4242
+	 		--> PermitRootLogin = no
+	 	--> "systemctl restart ssh"
+	 	--> Port forwarding: Configuracion de la VM, Red, Avanzado, Reenvio de puertos
+	 		--> Nueva regla: SSH, host port:2222, guest port:4242
+	 	--> Terminal host: "ssh jrecio-t@localhost -p 2222", introducir password
+	 
+Firewall 	--> Switch to root user: "su -"
+	 	--> Install UFW: "apt install ufw"
+	 	--> block incoming requests: "ufw default deny incoming"
+	 	--> allow outgoing requests: "ufw default allow outgoing"
+	 	--> allow traffic on port 4242: "ufw allow 4242"
+	 	--> enable UFW: "enable ufw"
+
+Sudo		--> Install sudo program: "apt install sudo"
+		--> Open sudo config file: "visudo"
+		--> Add lines:
+			--> Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+			--> Defaults requiretty
+			--> Defaults badpass_message="WRONG PASSWORD"
+			--> Defaults logfile="/var/log/sudo/sudo.log"
+			--> Defaults log_input
+			--> Defaults log_output
+			--> Defaults iolog_dir=/var/log/sudo
+			--> Defaults passwd_tries=3
+			
+Groups		--> Create group user42: "groupadd user42"
+		--> Add user jrecio-t to user42 group: "usermod -a -G user42,sudo jrecio-t"
+		--> Verify user in group: "cat /etc/group"
+		
+Password policy --> "nano /etc/login.defs"
+			--> PASS_MAX_DAYS 30
+			--> PASS_MIN_DAYS 2
+			--> PASS_WARN_AGE 7
+		--> "chage -M 30 jrecio-t", "chage -M 30 root"
+		--> "chage -m 2 jrecio-t", "chage -m 2 root"
+		--> "chage -l root", "chage -l jrecio-t"
+		--> "apt install libpam-pwquality"
+		--> "nano /etc/pam.d/common-password"
+			--> password requisite pam_pwquality.so retry=3 minlen=10 difok=7 maxrepeat=3 dcredit=-1 ucredit=-1 lcredit=-1 reject_username enforce_for_root
+		--> "passwd jrecio-t"
+			--> hO0.'X0d2V7}
+		--> "passwd root"
+			--> Dl36^X\5-`P%
+			
+SELinux		--> nano /etc/selinux/config
+
+Nuevo usuario	--> "su -" para root
+		--> "adduser test"
+			--> Introducir contraseña
+			--> Repetir contraseña
+		--> "adduser test sudo" para añadir el usuario test al grupo sudo
+		--> "groups test" para ver en que grupos esta el usuario test
+		
+Mod hostname	--> nano /etc/hosts
+		--> Modificar nombre en la línea "127.0.1.1 jrecio-t42"
+
+Ver sudo logs	--> cat /var/log/sudo/sudo.log
+
+Cron		--> Colocar el script en "/etc/cron.d/monitoring.sh"
+		--> Parar el servicio cron: "sudo systemctl stop cron"
+
+Script		--> monitoring.sh
+
+#!/bin/bash
+
+# CPUs
+sockets=$(lscpu | grep 'Socket(s)' | awk '{print $2}')
+cores=$(lscpu | grep 'Núcleo(s)' | awk '{print $4}')
+threads=$(lscpu | grep 'Hilo(s)' | awk '{print $6}')
+
+# RAM
+total_mem=$(free -m | grep Mem | awk '{print $2}')
+avail_mem=$(free -m | grep Mem | awk '{print $3}')
+
+# Disk
+disk_mem=$(vgdisplay | grep 'Alloc PE' | awk '{print $5}')
+free_mem=$(vgdisplay | grep 'Alloc PE' | awk '{print substr($7, 2)}')
+ratio_mem=$(df -h --block-size=G --total | tail -n 1 | awk '{print $5}')
+
+# CPU load
+cpu=$(mpstat | awk '/all/ {gsub(",", ".", $NF); print 100 - $NF}')
+
+# Last boot
+boot=$(who -b | awk '{print $4 " " $5}')
+
+# LVM
+lvm=$(cat /etc/fstab | grep /dev/mapper | wc -l)
+
+# TCP
+tcp=$(echo "$(ss -t state established | wc -l) - 1" | bc)
+
+# LOG
+log=$(($(w | wc -l) - 2))
+
+# NET
+ip=$(ip address | grep enp | grep inet | awk '{print $2}' | cut -d / -f1)
+mac=$(ip address | grep enp -A 1 | grep ether | awk '{print $2}')
+
+# SUDO
+sudo=$(echo "obase=10; ibase=36; $(cat /var/log/sudo/seq)" | bc)
+
+echo -n '#Architecture: ' ; uname -a;
+echo -n '#Physical CPU: '; echo $(($sockets*$cores));
+echo -n '#vCPU: '; echo $(($sockets*$cores*$threads));
+echo -n '#Memory Usage: '; echo -n $avail_mem'/'$total_mem'MB '; echo "($(echo "scale=2; ($avail_mem*100)/$total_mem" | bc)%)";
+echo -n '#Disk Usage: '; echo -n $disk_mem'/'$free_mem'GB '; echo $ratio_mem;
+echo "#CPU load: $cpu%";
+echo "#Last boot: $boot";
+echo -n '#LVM use: ';
+
+if [ $lvm -gt 0 ]
+then
+        echo "yes"
+else
+        echo "no"
+fi
+
+echo "#TCP Connections: $tcp ESTABLISHED";
+echo "#User log: $log";
+echo "#Network: IP $ip ($mac)";
+echo "#Sudo: $sudo";
+
+Snapshots	--> Entregar la VM sin snapshots.
+		--> Entregar signature.txt.
+		--> El evaluador verifica la firma.
+		--> Crea una snapshot "Evaluación".
+		--> Hace toda la evaluación.
+		--> Restaura la snapshot.
+		--> Elimina la snapshot.
