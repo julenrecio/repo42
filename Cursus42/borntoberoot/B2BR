@@ -22,6 +22,8 @@ Firewall 	--> Switch to root user: "su -"
 	 	--> allow outgoing requests: "ufw default allow outgoing"
 	 	--> allow traffic on port 4242: "ufw allow 4242"
 	 	--> enable UFW: "enable ufw"
+	 	--> delete ufw rule: "ufw delete allow 8080"
+	 	--> list ufw rules: "ufw status"
 
 Sudo		--> Install sudo program: "apt install sudo"
 		--> Open sudo config file: "visudo"
@@ -65,11 +67,12 @@ Nuevo usuario	--> "su -" para root
 		
 Mod hostname	--> nano /etc/hosts
 		--> Modificar nombre en la línea "127.0.1.1 jrecio-t42"
+		--> "sudo hostnamectl set-hostname login_del_evaluador42"
 
 Ver sudo logs	--> cat /var/log/sudo/sudo.log
 
 Cron		--> Colocar el script en "/etc/cron.d/monitoring.sh"
-		--> Parar el servicio cron: "sudo systemctl stop cron"
+		--> Parar el servicio cron: "sudo systemctl disable cron"
 
 Script		--> monitoring.sh
 
@@ -135,7 +138,7 @@ echo "#Sudo: $sudo";
 Snapshots	--> Entregar la VM sin snapshots.
 		--> Entregar signature.txt.
 		--> El evaluador verifica la firma.
-		--> Crea una snapshot "Evaluación".
-		--> Hace toda la evaluación.
-		--> Restaura la snapshot.
-		--> Elimina la snapshot.
+		--> Crear una snapshot.
+		--> Hacer la evaluación.
+		--> Restaurar la snapshot.
+		--> Eliminar la snapshot.
