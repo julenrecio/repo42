@@ -2,24 +2,25 @@
 
 class Plant:
 
-    def __init__(self, name: str, height: float, age: int, growth_per_day: float) -> None:
+    def __init__(self, name: str, height: float,
+                 age: int, growth_per_day: float) -> None:
         self._name = name
-        if (height >= 0.0):
+        if (height > 0.0):
             self._height = height
         else:
-            self._height = 0.0
+            self._height = 1.0
             print(self._name, ": Create error, height can't be negative, "
                   "height set to default", sep="")
-        if (age >= 0):
+        if (age > 0):
             self._age = age
         else:
-            self._age = 0
+            self._age = 1
             print(self._name, ": Create error, age can't be negative, "
                   "age set to default", sep="")
-        if (growth_per_day >= 0.0):
+        if (growth_per_day > 0.0):
             self._growth_per_day = growth_per_day
         else:
-            self._growth_per_day = 0.0
+            self._growth_per_day = 1.0
             print(self._name, ": Create error, growth per day can't "
                   "be negative, growth per day set to default", sep="")
 
@@ -38,14 +39,14 @@ class Plant:
         self.set_height(round(self._height + self._growth_per_day, 2))
 
     def set_height(self, height: float) -> None:
-        if (height >= 0.0):
+        if (height > 0.0):
             self._height = height
         else:
             print(self._name, ": Update error, height can't be negative, "
                   "height update rejected", sep="")
 
     def set_age(self, age: int) -> None:
-        if (age >= 0):
+        if (age > 0):
             self._age = age
         else:
             print(self._name, ": Update error, age can't be negative, "
@@ -57,8 +58,10 @@ class Plant:
     def get_age(self) -> int:
         return self._age
 
+
 class Flower(Plant):
-    def __init__(self, name: str, height: float, age: int, growth_per_day: float, color: str) -> None:
+    def __init__(self, name: str, height: float, age: int,
+                 growth_per_day: float, color: str) -> None:
         super().__init__(name, height, age, growth_per_day)
         self._color = color
 
@@ -68,26 +71,33 @@ class Flower(Plant):
     def show_extra(self) -> str:
         return self._color + " color"
 
+
 class Tree(Plant):
-    def __init__(self, name: str, height: float, age: int, growth_per_day: float, trunk_diameter: float) -> None:
+    def __init__(self, name: str, height: float, age: int,
+                 growth_per_day: float, trunk_diameter: float) -> None:
         super().__init__(name, height, age, growth_per_day)
         self._trunk_diameter = trunk_diameter
-    
+
     def produce_shade(self) -> None:
-        print("Tree", self._name, "now produces a shade of", self._height, "cm long and", self._trunk_diameter, "cm wide.")
+        print("Tree", self._name, "now produces a shade of", self._height,
+              "cm long and", self._trunk_diameter, "cm wide.")
 
     def show_extra(self) -> str:
         return str(self._trunk_diameter) + " trunk diameter"
 
+
 class Vegetable(Plant):
-    def __init__(self, name: str, height: float, age: int, growth_per_day: float, harvest_season: str, nutritional_value: int) -> None:
+    def __init__(self, name: str, height: float, age: int,
+                 growth_per_day: float, harvest_season: str,
+                 nutritional_value: int) -> None:
         super().__init__(name, height, age, growth_per_day)
         self._harvest_season = harvest_season
         self._nutritional_value = nutritional_value
 
     def show_extra(self) -> str:
-        return "harvest season: " + self._harvest_season + ", nutritional value: " + str(self._nutritional_value)
-    
+        return ("harvest season: " + self._harvest_season +
+                ", nutritional value: " + str(self._nutritional_value))
+
     def grow(self) -> None:
         super().grow()
         self._nutritional_value += 1
@@ -114,7 +124,7 @@ if __name__ == "__main__":
     print("[asking the oak to produce shade]")
     tree.produce_shade()
     print("")
-    
+
     print("=== Vegetable")
     vegetable: Vegetable = Vegetable("Tomato", 47.0, 30, 5.6, "april", 0)
     vegetable.show()

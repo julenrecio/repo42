@@ -4,16 +4,16 @@ class Plant:
 
     def __init__(self, name: str, height: float, age: int) -> None:
         self._name = name
-        if (height >= 0.0):
+        if (height > 0.0):
             self._height = height
         else:
-            self._height = 0.0
+            self._height = 1.0
             print(self._name, ": Create error, height can't be negative, "
                   "height set to default", sep="")
-        if (age >= 0):
+        if (age > 0):
             self._age = age
         else:
-            self._age = 0
+            self._age = 1
             print(self._name, ": Create error, age can't be negative, "
                   "age set to default", sep="")
         print("Plant created: ", end="")
@@ -27,7 +27,7 @@ class Plant:
         self.set_age(self._age + 1)
 
     def set_height(self, height: float) -> None:
-        if (height >= 0.0):
+        if (height > 0.0):
             self._height = height
             print(self._name, ": Height updated: ", self._height, "cm", sep="")
         else:
@@ -35,7 +35,7 @@ class Plant:
                   "height update rejected", sep="")
 
     def set_age(self, age: int) -> None:
-        if (age >= 0):
+        if (age > 0):
             self._age = age
             print(self._name, ": Age updated: ", self._age, " days", sep="")
         else:

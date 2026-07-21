@@ -6,7 +6,8 @@ class Plant:
     age: int
 
     def show(self):
-        print(self.name, ": ", self.height, "cm, ", self.age, " days old", sep="")
+        print(self.name, ": ", self.height, "cm, ",
+              self.age, " days old", sep="")
 
 
 if __name__ == "__main__":
