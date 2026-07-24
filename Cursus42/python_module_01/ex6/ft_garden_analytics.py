@@ -52,7 +52,7 @@ class Plant:
 
     @classmethod
     def init_partial(cls, height: float,
-                     age: int, growth_per_day: float) -> None:
+                     age: int, growth_per_day: float) -> "Plant":
         return cls("Anonymous", height, age, growth_per_day)
 
     def show_extra(self) -> str:
@@ -108,15 +108,16 @@ class Plant:
 
 class Flower(Plant):
     def __init__(self, name: str, height: float, age: int,
-                 growth_per_day: float, color: str) -> None:
+                 growth_per_day: float, color: str, is_bloom: str) -> None:
         super().__init__(name, height, age, growth_per_day)
         self._color = color
+        self._is_bloom = self._name + is_bloom
 
     def bloom(self) -> None:
-        print(self._name + " is blooming beautifully!")
+        self._is_bloom = self._name + " is blooming beautifully!"
 
     def show_extra(self) -> str:
-        return ", " + self._color + " color"
+        return self._color + " color, " + self._is_bloom
 
 
 class Tree(Plant):
@@ -124,30 +125,18 @@ class Tree(Plant):
                  growth_per_day: float, trunk_diameter: float) -> None:
         super().__init__(name, height, age, growth_per_day)
         self._trunk_diameter = trunk_diameter
-        self._data = Tree.Data(0, 0, 0, 0)
+        self._shade_count = 0
 
     def produce_shade(self) -> None:
         print("Tree", self._name, "now produces a shade of", self._height,
               "cm long and", self._trunk_diameter, "cm wide.")
-        self._data.add_shade()
+        self._shade_count += 1
+
+    def get_shade_count(self) -> int:
+        return self._shade_count
 
     def show_extra(self) -> str:
         return ", " + str(self._trunk_diameter) + " trunk diameter"
-
-    class Data(Plant.Data):
-        def __init__(self, grow_count, aging_count, show_count,
-                     shade_count) -> None:
-            super().__init__(grow_count, aging_count, show_count)
-            self._shade_count = shade_count
-
-        def add_shade(self) -> None:
-            self._shade_count += 1
-
-        def get_shade_count(self) -> int:
-            return self._shade_count
-    
-    def get_data(self) -> Data:
-        return self._data
 
 
 class Vegetable(Plant):
@@ -173,9 +162,9 @@ class Vegetable(Plant):
 
 class Seed(Flower):
     def __init__(self, name: str, height: float, age: int,
-                 growth_per_day: float, color: str,
+                 growth_per_day: float, color: str, is_bloom: str,
                  seeds: int) -> None:
-        super().__init__(name, height, age, growth_per_day, color)
+        super().__init__(name, height, age, growth_per_day, color, is_bloom)
         self._seeds = seeds
 
     def show_extra(self):
@@ -189,10 +178,10 @@ class Seed(Flower):
 def show_stats(plant: Plant) -> None:
     print("Stats:", plant.get_data().get_grow_count(),
           "grow,", plant.get_data().get_aging_count(),
-          "aging,", plant.get_data().get_show_count(), 
+          "aging,", plant.get_data().get_show_count(),
           "show", end="")
-    if isinstance(plant.get_data(), Tree.Data):
-        print(",", plant.get_data().get_shade_count(), "shade")
+    if isinstance(plant, Tree):
+        print(",", plant.get_shade_count(), "shade")
     else:
         print()
 
@@ -201,19 +190,18 @@ if __name__ == "__main__":
 
     print("=== Garden statistics ===\n")
     print("=== Check year-old")
-    Plant.check_age(300)
+    Plant.check_age(30)
     Plant.check_age(400)
     print("")
 
     print("=== Flower")
-    rose: Flower = Flower("Rose", 15.0, 10, 3.3, "red")
+    rose: Flower = Flower("Rose", 15.0, 10, 3.3, "red", " has not bloomed yet")
     rose.show()
     print("[Statistics for Rose]")
     show_stats(rose)
-    print("[Asking the rose to grow and age]")
-    for _ in range(0, 10):
-        rose.grow()
-        rose.aging()
+    print("[Asking the rose to grow and bloom]")
+    rose.grow()
+    rose.bloom()
     rose.show()
     print("[Statistics for Rose]")
     show_stats(rose)
@@ -231,19 +219,20 @@ if __name__ == "__main__":
     print("")
 
     print("=== Seed")
-    sunflower: Seed = Seed("Sunflower", 12.0, 7, 0.4, "yellow", 0)
+    sunflower: Seed = Seed("Sunflower", 12.0, 7, 0.4,
+                           "yellow", " has not bloomed yet", 0)
     sunflower.show()
     print("[make sunflower grow, age and bloom]")
-    for _ in range(0, 10):
-        sunflower.grow()
-        sunflower.aging()
+    sunflower.grow()
+    sunflower.aging()
     sunflower.bloom()
     sunflower.show()
     print("[Statistics for Sunflower]")
     show_stats(sunflower)
+    print("")
 
     print("=== Anonymous")
-    #anon: plant = Plant(0.0, 0, 0.0)
+    anon: Plant = Plant.init_partial(1.0, 1, 1.0)
+    anon.show()
     print("[statistics for Unknown plant]")
-
-
+    show_stats(anon)

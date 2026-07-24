@@ -20,18 +20,20 @@ if __name__ == "__main__":
 
     print("=== Garden Plant Growth ===")
 
-    plant1 = Plant()
+    plant = Plant()
 
-    plant1.name = "Rose"
-    plant1.cm = 25.0
-    plant1.age = 30
-    plant1.growth_per_day = 0.8
+    plant.name = "Rose"
+    plant.cm = 25.0
+    plant.age = 30
+    plant.growth_per_day = 0.8
 
     i = 1
-    plant1.show()
-    for index in range(plant1.age, plant1.age + 7):
+    plant.show()
+    for index in range(plant.age, plant.age + 7):
         print("=== Day", i, "===")
-        plant1.grow()
-        plant1.aging()
-        plant1.show()
+        plant.grow()
+        plant.aging()
+        plant.show()
         i += 1
+
+    print("Growth this week: ", round(plant.growth_per_day*7, 2), "cm", sep="")

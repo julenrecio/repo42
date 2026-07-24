@@ -58,18 +58,22 @@ class Plant:
     def get_age(self) -> int:
         return self._age
 
+    def get_name(self) -> str:
+        return self._name
+
 
 class Flower(Plant):
     def __init__(self, name: str, height: float, age: int,
-                 growth_per_day: float, color: str) -> None:
+                 growth_per_day: float, color: str, is_bloom: str) -> None:
         super().__init__(name, height, age, growth_per_day)
         self._color = color
+        self._is_bloom = self._name + " has not bloomed yet"
 
     def bloom(self) -> None:
-        print(self._name + " is blooming beautifully!")
+        self._is_bloom = self._name + " is blooming beautifully!"
 
     def show_extra(self) -> str:
-        return self._color + " color"
+        return self._color + " color, " + str(self._is_bloom)
 
 
 class Tree(Plant):
@@ -112,10 +116,12 @@ if __name__ == "__main__":
     print("=== Garden Plant Types ===\n")
 
     print("=== Flower")
-    flower: Flower = Flower("Rose", 15.0, 10, 3.3, "red")
+    flower: Flower = Flower("Rose", 15.0, 10, 3.3, "red",
+                            " has not bloomed yet")
     flower.show()
     print("[asking the rose to bloom]")
     flower.bloom()
+    flower.show()
     print("")
 
     print("=== Tree")
