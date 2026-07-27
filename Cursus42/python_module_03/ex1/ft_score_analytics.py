@@ -26,7 +26,7 @@ if __name__ == "__main__":
         print("Scores processed:", scores)
         print("Total players: {}".format(num_players))
         print("Total score: {}".format(sum(scores)))
-        print("Average score: {}".format(sum(scores) / len(scores)))
+        print("Average score: {}".format(sum(scores) / num_players))
         print("High score: {}".format(max(scores)))
         print("Low score: {}".format(min(scores)))
         print("Score range: {}".format(max(scores) - min(scores)))

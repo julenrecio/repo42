@@ -17,7 +17,7 @@ def get_player_pos() -> tuple:
                     output_coords.append(float(coord))
                 except ValueError as e:
                     raise ValueError(("Error on parameter '{}': {}").
-                                     format(coord, e)) from e
+                                     format(coord, e))
             return tuple(output_coords)
         except ValueError as e:
             print(e)
@@ -30,13 +30,14 @@ def distance(point1: tuple, point2: tuple) -> float:
 
 
 if __name__ == "__main__":
+    print("=== Game Coordinate System ===\n")
     print("Get a first set of coordinates")
     coords1: tuple = get_player_pos()
     print("Got a first tuple:", coords1)
     print("It includes: X=", coords1[0], ", Y=",
           coords1[1], ", Z=", coords1[2], sep="")
     print("Distance to center:", distance(coords1, (0, 0, 0)))
-    print("Get a second set of coordinates")
+    print("\nGet a second set of coordinates")
     coords2: tuple = get_player_pos()
     print("Distance between the 2 sets of coordinates:",
           distance(coords1, coords2))
