@@ -1,12 +1,12 @@
-#!/opt/pyenv/shims/python3
+#!/usr/bin/env python3
 
 def input_temperature(temp_str: str) -> int:
     if int(temp_str) < 0:
-        raise ValueError(("{}°C is too cold "
-                          "for plants (min 0°C)").format(temp_str))
+        raise ValueError(temp_str + "°C is too cold "
+                         "for plants (min 0°C)")
     elif int(temp_str) > 40:
-        raise ValueError(("{}°C is too hot for "
-                          "plants (max 40°C)").format(temp_str))
+        raise ValueError(temp_str + "°C is too hot for "
+                         "plants (max 40°C)")
     else:
         return (int(temp_str))
 
@@ -22,21 +22,21 @@ def test_temperature() -> None:
     print("")
     try:
         print("Input data is 'abc'", sep="")
-        value: int = input_temperature("abc")
+        value = input_temperature("abc")
         print("Temperature is now ", value, "ºC", sep="")
     except ValueError as e:
         print("Caught input_temperature error:", e)
     print("")
     try:
         print("Input data is '100'", sep="")
-        value: int = input_temperature("100")
+        value = input_temperature("100")
         print("Temperature is now ", value, "ºC", sep="")
     except ValueError as e:
         print("Caught input_temperature error:", e)
     print("")
     try:
         print("Input data is '-50'", sep="")
-        value: int = input_temperature("-50")
+        value = input_temperature("-50")
         print("Temperature is now ", value, "ºC", sep="")
     except ValueError as e:
         print("Caught input_temperature error:", e)

@@ -1,4 +1,4 @@
-#!/opt/pyenv/shims/python3
+#!/usr/bin/env python3
 
 def input_temperature(temp_str: str) -> int:
     return (int(temp_str))
@@ -15,7 +15,7 @@ def test_temperature() -> None:
     print("")
     try:
         print("Input data is 'abc'", sep="")
-        value: int = input_temperature("abc")
+        value = input_temperature("abc")
         print("Temperature is now ", value, "ºC", sep="")
     except ValueError as e:
         print("Caught input_temperature error:", e)

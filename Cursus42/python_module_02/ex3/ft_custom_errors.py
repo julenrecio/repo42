@@ -1,18 +1,27 @@
-#!/opt/pyenv/shims/python3
+#!/usr/bin/env python3
 
 class GardenError(Exception):
     def __init__(self, message="Unknown garden error: "):
-        super().__init__(message)
+        self.message = message
+
+    def __str__(self):
+        return self.message
 
 
 class PlantError(GardenError):
     def __init__(self, message="Unknown plant error: "):
-        super().__init__(message)
+        self.message = message
+
+    def __str__(self):
+        return self.message
 
 
 class WaterError(GardenError):
     def __init__(self, message="Unknown water error: "):
-        super().__init__(message)
+        self.message = message
+
+    def __str__(self):
+        return self.message
 
 
 def raise_exceptions(tomato_wilting: bool, water: int) -> None:
