@@ -4,9 +4,9 @@ import random
 
 
 def gen_player_achievements(achievements: list) -> set:
-    num_achievements = random.randint(0, len(achievements))
+    num_achievements = random.randint(1, len(achievements))
     player: set = set()
-    for i in range(num_achievements):
+    while len(player) < num_achievements:
         achievement_number = random.randint(0, len(achievements) - 1)
         player.add(achievements[achievement_number])
     return player

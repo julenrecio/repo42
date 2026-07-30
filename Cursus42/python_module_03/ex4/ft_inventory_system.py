@@ -23,21 +23,22 @@ def operate_dict() -> None:
     print("Item list:", list(elements.keys()))
     print("Total quantity of the {} items: {}".
           format(len(elements.keys()), sum(elements.values())))
-    max_key: str = list(elements.keys())[0]
-    min_key: str = list(elements.keys())[0]
-    for element in elements.keys():
-        print("Item {} represents {}%".format
-              (element, round((int(elements[element]) /
-                               sum(elements.values()) * 100), 1)))
-        if (elements[element] > elements[max_key]):
-            max_key = element
-        if (elements[element] < elements[min_key]):
-            min_key = element
-    print("Item most abundant: {} with quantity {}".
-          format(max_key, max(elements.values())))
-    print("Item least abundant: {} with quantity {}".
-          format(min_key, min(elements.values())))
-    elements["magic_item"] = 1
+    if (elements):
+        max_key: str = list(elements.keys())[0]
+        min_key: str = list(elements.keys())[0]
+        for element in elements.keys():
+            print("Item {} represents {}%".format
+                  (element, round((int(elements[element]) /
+                                   sum(elements.values()) * 100), 1)))
+            if (elements[element] > elements[max_key]):
+                max_key = element
+            if (elements[element] < elements[min_key]):
+                min_key = element
+        print("Item most abundant: {} with quantity {}".
+              format(max_key, max(elements.values())))
+        print("Item least abundant: {} with quantity {}".
+              format(min_key, min(elements.values())))
+    elements.update({"magic_item": 1})
     print("Updated inventory:", elements)
 
 

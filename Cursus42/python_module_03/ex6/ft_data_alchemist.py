@@ -16,16 +16,9 @@ def all_cap() -> list:
     return newlist
 
 
-def first_dict() -> dict:
-    first: dict = {k: random.randint(0, 1000) for k in names}
+def first_dict(capitalized: list) -> dict:
+    first: dict = {k: random.randint(0, 1000) for k in capitalized}
     return first
-
-
-def get_average(dictionary: dict) -> float:
-    avg: int = 0
-    for value in dictionary.values():
-        avg += value
-    return round((avg / len(dictionary)), 2)
 
 
 def second_dict(first_dict: dict, average: float) -> dict:
@@ -40,8 +33,8 @@ if __name__ == "__main__":
     capitalized: list = all_cap()
     print("New list with all names capitalized:", capitalized)
     print("New list of capitalized names only:", only_cap())
-    scores: dict = first_dict()
+    scores: dict = first_dict(capitalized)
     print("Score dict", scores)
-    average: float = get_average(scores)
+    average: float = round((sum(scores.values()) / len(scores)), 2)
     print("Score average is:", average)
     print("High scores:", second_dict(scores, average))
