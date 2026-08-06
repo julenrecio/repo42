@@ -8,16 +8,16 @@ class DataProcessor(ABC):
 
     def __init__(self) -> None:
         self._data: list[str] = []
-        self._next_rank: int = 0
+        self._rank: int = 0
 
     def get_data(self) -> Any:
         return self._data
 
     def get_rank(self) -> int:
-        return self._next_rank
+        return self._rank
 
     def set_rank(self, rank: int) -> None:
-        self._next_rank = rank
+        self._rank = rank
 
     @abstractmethod
     def validate(self, data: Any) -> bool:
@@ -108,47 +108,50 @@ class LogProcessor(DataProcessor):
             self.set_rank(self.get_rank() + 1)
 
 
+class DataStream:
+
+    def __init__(self) -> None:
+        self._processors: dict[str, DataProcessor] = {}
+
+    def get_processors(self) -> dict[str, DataProcessor]:
+        return self._processors
+
+    def register_processor(self, proc: DataProcessor) -> None:
+        if isinstance(proc, NumericProcessor):
+            self.get_processors()["Numeric"] = proc
+            print("Registering Numeric Processor")
+        elif isinstance(proc, TextProcessor):
+            self.get_processors()["Text"] = proc
+            print("Registering text processor")
+        elif isinstance(proc, LogProcessor):
+            self.get_processors()["Log"] = proc
+            print("Registering log processor")
+
+    def process_stream(self, stream: list[Any]) -> None:
+        pass
+
+    def print_processors_stats(self) -> None:
+        print("== DataStream statistics ==")
+        if not self._processors:
+            print("No processor found, no data")
+        else:
+            if self.get_processors().get("Numeric"):
+                num_proc: DataProcessor = self.get_processors()["Numeric"]
+            if self.get_processors().get("Text"):
+                text_proc: DataProcessor = self.get_processors()["Text"]
+            if self.get_processors().get("Log"):
+                log_proc: DataProcessor = self.get_processors()["Log"]
+            print("Numeric Processor: total {} items processed, "
+                  "remaining {} on processor"
+                  .format(num_proc.get_rank(), len(num_proc.get_data())))
+            print("Text Processor: total {} items processed, "
+                  "remaining {} on processor"
+                  .format(text_proc.get_rank(), len(text_proc.get_data())))
+            print("Log Processor: total {} items processed, "
+                  "remaining {} on processor"
+                  .format(log_proc.get_rank(), len(log_proc.get_data())))
+
+
 if __name__ == "__main__":
-    print("=== Code Nexus - Data Processor ===")
-    print("\nTesting Numeric Processor...")
-    num_proc: NumericProcessor = NumericProcessor()
-    print(" Trying to validate input '42': {}".format(num_proc.validate(42)))
-    print(" Trying to validate input 'Hello': {}"
-          .format(num_proc.validate("hello")))
-    print(" Test invalid ingestion of string 'foo' without prior validation:")
-    try:
-        num_proc.ingest("foo")
-    except Exception as e:
-        print(" Got exception:", e)
-    num_data: list = [1, 2, 3, 4, 5]
-    print(" Processing data: {}".format(num_data))
-    num_proc.process_data(num_data)
-    print(" Extracting 3 values...")
-    for i in range(3):
-        num_extract: tuple[int, str] = num_proc.output()
-        print(" Numeric value {}: {}".format(num_extract[0], num_extract[1]))
-
-    print("\nTesting Text Processor...")
-    text_proc: TextProcessor = TextProcessor()
-    print(" Trying to validate input '42': {}".format(text_proc.validate(42)))
-    text_data: list[str] = ["Hello", "Nexus", "World"]
-    print(" Processing data: {}".format(text_data))
-    text_proc.process_data(text_data)
-    print(" Extracting 1 value...")
-    text_extract: tuple[int, str] = text_proc.output()
-    print(" Text value {}: {}".format(text_extract[0], text_extract[1]))
-
-    print("\nTesting Log Processor...")
-    log_proc: LogProcessor = LogProcessor()
-    print(" Trying to validate input 'Hello': {}".
-          format(log_proc.validate("Hello")))
-    log_data: list[dict[str, str]] = [{'log_level': 'NOTICE',
-                                       'log_message': 'Connection to server'},
-                                      {'log_level': 'ERROR',
-                                       'log_message': 'Unauthorized access!!'}]
-    print(" Processing data: {}".format(log_data))
-    log_proc.process_data(log_data)
-    print(" Extracting 2 values...")
-    for i in range(2):
-        log_extract: tuple[int, str] = log_proc.output()
-        print(" Log entry {}: {}".format(log_extract[0], log_extract[1]))
+    print("=== Code Nexus - Data Stream ===")
+    print("\nInitialize Data Stream...")
