@@ -50,7 +50,7 @@ def test_garden_errors() -> None:
 
     print("Testing catching all garden errors...")
     try:
-        raise_exceptions(True, 15)
+        raise_exceptions(False, 15)
     except GardenError as g:
         print("Caught GardenError:", g)
     try:
