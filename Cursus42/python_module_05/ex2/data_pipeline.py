@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, Protocol
 
 
 class DataProcessor(ABC):
@@ -108,6 +108,12 @@ class LogProcessor(DataProcessor):
             self.set_rank(self.get_rank() + 1)
 
 
+class ExportPlugin(Protocol):
+
+    def process_output(self, data: list[tuple[int, str]]) -> None:
+        pass
+
+
 class DataStream:
 
     def __init__(self) -> None:
@@ -140,7 +146,7 @@ class DataStream:
                       data_piece)
 
     def print_processors_stats(self) -> None:
-        print("== DataStream statistics ==")
+        print("\n== DataStream statistics ==")
         if not self._processors:
             print("No processor found, no data\n")
         else:
@@ -160,15 +166,24 @@ class DataStream:
                       "remaining {} on processor"
                       .format(log_proc.get_rank(), len(log_proc.get_data())))
 
+    def output_pipeline(self, nb: int, plugin: ExportPlugin) -> None:
+        for processor in self.get_processors().values():
+            for _ in nb:
+                processor.output()
+
 
 if __name__ == "__main__":
-    print("=== Code Nexus - Data Stream ===")
+    print("=== Code Nexus - Data Pipeline ===")
     print("\nInitialize Data Stream...")
     stream: DataStream = DataStream()
     stream.print_processors_stats()
+    print("Registering Processors\n")
     num_proc: NumericProcessor = NumericProcessor()
-    print("Registering Numeric Processor\n")
+    text_proc: TextProcessor = TextProcessor()
+    log_proc: LogProcessor = LogProcessor()
     stream.register_processor(num_proc)
+    stream.register_processor(text_proc)
+    stream.register_processor(log_proc)
     print("Send first batch of data on stream: "
           "['Hello world', [3.14, -1, 2.71], "
           "[{'log_level': 'WARNING', 'log_message': "
@@ -182,10 +197,8 @@ if __name__ == "__main__":
                              'User wil is connected'}], 42, ['Hi', 'five']])
     stream.print_processors_stats()
     print("\nRegistering other data processors")
-    text_proc: TextProcessor = TextProcessor()
-    log_proc: LogProcessor = LogProcessor()
-    stream.register_processor(text_proc)
-    stream.register_processor(log_proc)
+    
+    
     print("Send the same batch again")
     stream.process_stream(['Hello world', [3.14, -1, 2.71],
                            [{'log_level': 'WARNING', 'log_message':
