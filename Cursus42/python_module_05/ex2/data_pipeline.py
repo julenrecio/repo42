@@ -111,7 +111,35 @@ class LogProcessor(DataProcessor):
 class ExportPlugin(Protocol):
 
     def process_output(self, data: list[tuple[int, str]]) -> None:
-        pass
+        ...
+
+
+class CSVPlugin:
+
+    def process_output(self, data: list[tuple[int, str]]) -> None:
+        i: int = 0
+        for element in data:
+            if (i % 3 == 0):
+                print("CSV Output:")
+                print(element[1], end="")
+            else:
+                print(',' + element[1], end="")
+            i += 1
+        print()
+
+
+class JSONPlugin:
+
+    def process_output(self, data: list[tuple[int, str]]) -> None:
+        i: int = 0
+        for element in data:
+            if (i % 5 == 0):
+                print("JSON Output:")
+                print(element[1], end="")
+            else:
+                print(',' + element[1], end="")
+            i += 1
+        print()
 
 
 class DataStream:
@@ -167,9 +195,14 @@ class DataStream:
                       .format(log_proc.get_rank(), len(log_proc.get_data())))
 
     def output_pipeline(self, nb: int, plugin: ExportPlugin) -> None:
+        
         for processor in self.get_processors().values():
-            for _ in nb:
-                processor.output()
+            output_list: list = []
+            for _ in range(nb):
+                if (len(processor.get_data()) != 0):
+                    output: tuple[int, str] = processor.output()
+                    output_list.append(output)
+            plugin.process_output(output_list)
 
 
 if __name__ == "__main__":
@@ -196,22 +229,24 @@ if __name__ == "__main__":
                             {'log_level': 'INFO', 'log_message':
                              'User wil is connected'}], 42, ['Hi', 'five']])
     stream.print_processors_stats()
-    print("\nRegistering other data processors")
-    
-    
-    print("Send the same batch again")
-    stream.process_stream(['Hello world', [3.14, -1, 2.71],
-                           [{'log_level': 'WARNING', 'log_message':
-                             'Telnet access! Use ssh instead'},
-                            {'log_level': 'INFO', 'log_message':
-                             'User wil is connected'}], 42, ['Hi', 'five']])
+    print("\nSend 3 processed data from each processor to a CSV plugin:")
+    csv_plugin: CSVPlugin = CSVPlugin()
+    stream.output_pipeline(3, csv_plugin)
     stream.print_processors_stats()
-    print("\nConsume some elements from the data processors: "
-          "Numeric 3, Text 2, Log 1")
-    stream.get_processors()["Numeric"].output()
-    stream.get_processors()["Numeric"].output()
-    stream.get_processors()["Numeric"].output()
-    stream.get_processors()["Text"].output()
-    stream.get_processors()["Text"].output()
-    stream.get_processors()["Log"].output()
+    print("Send another batch of data: [21, ['I love AI',"
+          "'LLMs are wonderful', 'Stay healthy'], [{'log_level': 'ERROR',"
+          "'log_message': '500 server crash'}, {'log_level': 'NOTICE',"
+          "'log_message': 'Certificate expires in 10 days'}],"
+          "[32, 42, 64, 84, 128, 168], 'World hello']")
+    stream.process_stream([21, ['I love AI', 'LLMs are wonderful',
+                                'Stay healthy'],
+                           [{'log_level': 'ERROR',
+                             'log_message': '500 server crash'},
+                            {'log_level': 'NOTICE', 'log_message':
+                             'Certificate expires in 10 days'}],
+                           [32, 42, 64, 84, 128, 168], 'World hello'])
+    stream.print_processors_stats()
+    print("\nSend 5 processed data from each processor to a CSV plugin:")
+    json_plugin: JSONPlugin = JSONPlugin()
+    stream.output_pipeline(5, json_plugin)
     stream.print_processors_stats()
