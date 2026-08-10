@@ -135,9 +135,11 @@ class JSONPlugin:
         for element in data:
             if (i % 5 == 0):
                 print("JSON Output:")
-                print(element[1], end="")
+                print('{{"item_{}": "{}"}}'
+                      .format(element[0], element[1]), end="")
             else:
-                print(',' + element[1], end="")
+                print(', {{"item_{}": "{}"}}'
+                      .format(element[0], element[1]), end="")
             i += 1
         print()
 
@@ -195,7 +197,6 @@ class DataStream:
                       .format(log_proc.get_rank(), len(log_proc.get_data())))
 
     def output_pipeline(self, nb: int, plugin: ExportPlugin) -> None:
-        
         for processor in self.get_processors().values():
             output_list: list = []
             for _ in range(nb):
@@ -233,7 +234,7 @@ if __name__ == "__main__":
     csv_plugin: CSVPlugin = CSVPlugin()
     stream.output_pipeline(3, csv_plugin)
     stream.print_processors_stats()
-    print("Send another batch of data: [21, ['I love AI',"
+    print("\nSend another batch of data: [21, ['I love AI',"
           "'LLMs are wonderful', 'Stay healthy'], [{'log_level': 'ERROR',"
           "'log_message': '500 server crash'}, {'log_level': 'NOTICE',"
           "'log_message': 'Certificate expires in 10 days'}],"
@@ -246,7 +247,7 @@ if __name__ == "__main__":
                              'Certificate expires in 10 days'}],
                            [32, 42, 64, 84, 128, 168], 'World hello'])
     stream.print_processors_stats()
-    print("\nSend 5 processed data from each processor to a CSV plugin:")
+    print("\nSend 5 processed data from each processor to a JSON plugin:")
     json_plugin: JSONPlugin = JSONPlugin()
     stream.output_pipeline(5, json_plugin)
     stream.print_processors_stats()
