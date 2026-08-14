@@ -1,3 +1,7 @@
-__all__ = ["create_air"]
+__all__ = ["create_air", "strength_potion", "lead_to_gold"]
 
 from .elements import create_air
+from .potions import strength_potion, healing_potion
+from .transmutation.recipes import lead_to_gold
+
+heal = healing_potion
