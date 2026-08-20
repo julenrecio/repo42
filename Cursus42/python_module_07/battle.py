@@ -1,20 +1,25 @@
 from ex0 import FlameFactory, AquaFactory, CreatureFactory
+from ex0.creature import Creature
 
 
 def check_factory(factory: CreatureFactory) -> None:
-    print(factory.create_base().describe())
-    print(factory.create_base().attack())
-    print(factory.create_evolved().describe())
-    print(factory.create_evolved().attack())
+    base: Creature = factory.create_base()
+    evolved: Creature = factory.create_evolved()
+    print(base.describe())
+    print(base.attack())
+    print(evolved.describe())
+    print(evolved.attack())
 
 
 def fight(factory1: CreatureFactory, factory2: CreatureFactory) -> None:
-    print(factory1.create_base().describe())
+    base_f1: Creature = factory1.create_base()
+    base_f2: Creature = factory2.create_base()
+    print(base_f1.describe())
     print(" vs.")
-    print(factory2.create_base().describe())
+    print(base_f2.describe())
     print(" fight!")
-    print(factory1.create_base().attack())
-    print(factory2.create_base().attack())
+    print(base_f1.attack())
+    print(base_f2.attack())
 
 
 if __name__ == "__main__":
