@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from ex1 import HealingCreatureFactory, TransformCreatureFactory
 from ex1.creature import Sproutling, Bloomelle, Shiftling, Morphagon
 
