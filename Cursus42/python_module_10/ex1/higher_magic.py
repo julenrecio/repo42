@@ -53,7 +53,7 @@ def conditional_caster(condition: Callable[[str, int], bool],
     return conditional_spell
 
 
-def condition(target: str, power: int):
+def condition(target: str, power: int) -> bool:
     if (power < 50 and target == "Dragon"):
         return True
     else:
@@ -70,26 +70,27 @@ def spell_sequence(spells: list[Callable[[str, int], str]]
     return sequence
 
 
-test_values = [20, 6, 23]
-test_targets = ['Dragon', 'Goblin', 'Wizard', 'Knight']
+if __name__ == "__main__":
+    test_values = [20, 6, 23]
+    test_targets = ['Dragon', 'Goblin', 'Wizard', 'Knight']
 
-print("\nTesting spell combiner... (Returns a tuple with the spells combined,"
-      " spells -> heal and fireball)")
-combiner = spell_combiner(spell_heal, spell_fireball)
-print(combiner(test_targets[0], test_values[0]))
+    print("\nTesting spell combiner... (Returns a tuple with the spells"
+          "combined, spells -> heal and fireball)")
+    combiner = spell_combiner(spell_heal, spell_fireball)
+    print(combiner(test_targets[0], test_values[0]))
 
-print("\nTesting power amplifier...(Returns a amplified spell, multiplier ->"
-      " 5, 20 * 5 = 100)")
-amplifier = power_amplifier(spell_fireball, 5)
-print(amplifier(test_targets[0], test_values[0]))
+    print("\nTesting power amplifier...(Returns a amplified spell, multiplier "
+          "-> 5, 20 * 5 = 100)")
+    amplifier = power_amplifier(spell_fireball, 5)
+    print(amplifier(test_targets[0], test_values[0]))
 
-print("\nTesting conditional caster...(Returns a spell if condition -> power <"
-      " 50 and target < 'Dragon')")
-conditional = conditional_caster(condition, spell_shield)
-print(conditional(test_targets[0], test_values[0]))
+    print("\nTesting conditional caster...(Returns a spell if condition -> "
+          "power < 50 and target < 'Dragon')")
+    conditional = conditional_caster(condition, spell_shield)
+    print(conditional(test_targets[0], test_values[0]))
 
-print("\nTesting spell sequence...(Returns a list of spells -> "
-      "heal, fireball, shield, mind_control, spell_shrink)")
-sequence = spell_sequence([spell_heal, spell_fireball,
-                           spell_shield, spell_mind_control, spell_shrink])
-print(sequence(test_targets[0], test_values[0]), "\n")
+    print("\nTesting spell sequence...(Returns a list of spells -> "
+          "heal, fireball, shield, mind_control, spell_shrink)")
+    sequence = spell_sequence([spell_heal, spell_fireball,
+                               spell_shield, spell_mind_control, spell_shrink])
+    print(sequence(test_targets[0], test_values[0]), "\n")
