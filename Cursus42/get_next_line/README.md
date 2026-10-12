@@ -25,7 +25,7 @@ The function returns one line per call, including the newline character (`'\n'`)
 Compile the project together with your program:
 
 ```bash
-cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c main.c
+cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c
 ```
 
 The value of `BUFFER_SIZE` can be modified during compilation.
@@ -109,3 +109,44 @@ Artificial Intelligence tools were used exclusively as a learning aid during the
 * Understand edge cases involving buffers and file descriptors.
 * Explain memory management concepts and debugging techniques.
 * Review and improve the readability of the documentation.
+
+## Bonus: Multiple File Descriptors
+
+The bonus part extends the basic implementation to support reading from multiple file descriptors simultaneously, without mixing their contents or losing unread data.
+
+### Compilation
+
+Compile the project together with your program:
+
+```bash
+cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line_bonus.c get_next_line_utils_bonus.c
+```
+
+The value of `BUFFER_SIZE` can be modified during compilation.
+
+---
+
+### Implementation
+
+Instead of using a single static pointer, the bonus implementation uses an array of static pointers:
+
+```c
+static char *stash[OPEN_MAX];
+```
+
+Each file descriptor has its own `stash`, which stores the data read from that descriptor but not yet returned to the caller.
+
+The algorithm remains the same as in the mandatory part, with one key difference: all buffer operations use the stash associated with the file descriptor passed to `get_next_line()`.
+
+This design allows the function to:
+
+* Read from multiple files in an interleaved order.
+* Preserve unread data independently for each file descriptor.
+* Handle files with different lengths without affecting other open files.
+* Return `NULL` for a descriptor that has reached the end of its file, while allowing other descriptors to continue being read.
+
+### Testing
+
+The bonus implementation can be tested by opening multiple files and alternating calls to `get_next_line()` using their respective file descriptors.
+
+The test should include files with different numbers of lines, different line lengths, and files whose final line does not end with a newline character. Each descriptor should be read until `get_next_line()` returns `NULL`, independently of the others.
