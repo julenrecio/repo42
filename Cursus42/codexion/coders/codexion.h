@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 12:37:30 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/10/26 10:56:54 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/10/26 15:45:48 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,31 @@
 # include <string.h>
 # include <stdlib.h>
 
+typedef enum state
+{
+	COMPILING,
+	DEBUGGING,
+	REFACTORING,
+	WAITING
+}	t_state;
+
 typedef struct s_cod
 {
-	int		number_of_coders;
-	int		time_to_burnout;
-	int		time_to_compile;
-	int		time_to_debug;
-	int		time_to_refactor;
-	int		number_of_compiles_required;
-	int		dongle_cooldown;
-	char	*scheduler;
+	long		number_of_coders;
+	long		time_to_burnout;
+	long		time_to_compile;
+	long		time_to_debug;
+	long		time_to_refactor;
+	long		number_of_compiles_required;
+	long		dongle_cooldown;
+	char		*scheduler;
 
 }	t_cod;
 
 typedef struct s_coder
 {
 	int			id;
+	t_state		state;
 	long		last_compile_time;
 	pthread_t	thread;
 }	t_coder;
