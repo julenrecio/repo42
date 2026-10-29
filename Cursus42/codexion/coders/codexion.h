@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 12:37:30 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/10/26 15:45:48 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/10/29 15:46:11 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,21 @@ typedef enum state
 	COMPILING,
 	DEBUGGING,
 	REFACTORING,
-	WAITING
+	WAITING,
+	BURNED_OUT,
+	FINISHED
 }	t_state;
 
-typedef struct s_cod
+typedef struct s_coder
+{
+	int			id;
+	int			compile_count;
+	t_state		state;
+	long		last_compile_time;
+	pthread_t	thread;
+}	t_coder;
+
+typedef struct s_simulation
 {
 	long		number_of_coders;
 	long		time_to_burnout;
@@ -36,15 +47,8 @@ typedef struct s_cod
 	long		number_of_compiles_required;
 	long		dongle_cooldown;
 	char		*scheduler;
+	t_coder		*coders;
 
-}	t_cod;
-
-typedef struct s_coder
-{
-	int			id;
-	t_state		state;
-	long		last_compile_time;
-	pthread_t	thread;
-}	t_coder;
+}	t_simulation;
 
 #endif

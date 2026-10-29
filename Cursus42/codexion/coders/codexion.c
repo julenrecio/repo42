@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 12:37:38 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/10/26 13:51:21 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/10/29 15:47:11 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,28 +21,29 @@ void	*coder_routine(void *arg)
 	return (NULL);
 }
 
-void	create_threads(int num_coders)
+t_coder	*create_threads(int num_coders)
 {
-	t_coder		*coder;
+	t_coder		*coders;
 	int			i;
 
-	coder = malloc(sizeof(t_coder) * num_coders);
+	coders = malloc(sizeof(t_coder) * num_coders);
 	i = 0;
 	while (i < num_coders)
 	{
-		if (pthread_create(&coder[i].thread, NULL,
-				coder_routine, &coder[i]) != 0)
+		if (pthread_create(&coders[i].thread, NULL,
+				coder_routine, &coders[i]) != 0)
 			printf("Error creating a thread");
-		coder[i].id = i;
-		pthread_join(coder[i].thread, NULL);
+		coders[i].id = i;
+		pthread_join(coders[i].thread, NULL);
 		i++;
 	}
 	printf("All threads created correctly");
+	return (coders);
 }
 
-t_cod	load_args(char **argv)
+t_simulation	load_args(char **argv)
 {
-	t_cod	args;
+	t_simulation	args;
 
 	args.number_of_coders = atoi(argv[1]);
 	args.time_to_burnout = atoi(argv[2]);
@@ -52,12 +53,13 @@ t_cod	load_args(char **argv)
 	args.number_of_compiles_required = atoi(argv[6]);
 	args.dongle_cooldown = atoi(argv[7]);
 	args.scheduler = argv[8];
+	args.coders = create_threads(args.number_of_coders);
 	return (args);
 }
 
 int	main(int argc, char **argv)
 {
-	t_cod	args;
+	t_simulation	args;
 
 	if (argc == 9)
 	{
@@ -65,7 +67,7 @@ int	main(int argc, char **argv)
 			|| strcmp(argv[argc - 1], "edf") == 0)
 		{
 			args = load_args(argv);
-			create_threads(args.number_of_coders);
+			printf("\nNumber of coders: %ld", args.number_of_coders);
 		}
 		else
 			printf("Error: schedule (last arg) must be 'fifo' or 'edf'\n");
