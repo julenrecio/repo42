@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 12:37:30 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/02 13:15:51 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/03 17:52:53 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <unistd.h>
+# include <sys/time.h>
+# include <errno.h>
+# include <limits.h>
 
 typedef enum state
 {
@@ -33,7 +36,7 @@ typedef enum state
 typedef struct s_dongle
 {
 	pthread_cond_t	cond;
-	pthread_mutex_t mutex;
+	pthread_mutex_t	mutex;
 	bool			available;
 }	t_dongle;
 
@@ -48,6 +51,7 @@ typedef struct s_coder
 
 typedef struct s_simulation
 {
+	long		start_time;
 	long		number_of_coders;
 	long		time_to_burnout;
 	long		time_to_compile;
@@ -57,7 +61,7 @@ typedef struct s_simulation
 	long		dongle_cooldown;
 	char		*scheduler;
 	t_coder		*coders;
-	t_dongle 	*dongles;
+	t_dongle	*dongles;
 
 }	t_simulation;
 
