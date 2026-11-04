@@ -1,7 +1,7 @@
 NAME=codexion
 CC=cc
 CFLAGS=-Wall -Wextra -Werror -pthread
-SOURCES=coders/codexion.c
+SOURCES=coders/codexion.c coders/initialization.c coders/parsing.c coders/simulation.c
 OBJECTS=$(SOURCES:.c=.o)
 
 all: $(NAME)

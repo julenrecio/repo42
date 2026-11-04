@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 12:37:30 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/03 17:52:53 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/04 17:28:52 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@
 
 typedef enum state
 {
+	WAITING,
 	COMPILING,
 	DEBUGGING,
 	REFACTORING,
-	WAITING,
 	BURNED_OUT,
 	FINISHED
 }	t_state;
@@ -45,24 +45,28 @@ typedef struct s_coder
 	int			id;
 	int			compile_count;
 	t_state		state;
-	long		last_compile_time;
+	long long	last_compile_time;
 	pthread_t	thread;
 }	t_coder;
 
 typedef struct s_simulation
 {
-	long		start_time;
-	long		number_of_coders;
-	long		time_to_burnout;
-	long		time_to_compile;
-	long		time_to_debug;
-	long		time_to_refactor;
-	long		number_of_compiles_required;
-	long		dongle_cooldown;
+	long long	start_time;
+	int			number_of_coders;
+	int			time_to_burnout;
+	int			time_to_compile;
+	int			time_to_debug;
+	int			time_to_refactor;
+	int			number_of_compiles_required;
+	int			dongle_cooldown;
 	char		*scheduler;
 	t_coder		*coders;
 	t_dongle	*dongles;
-
 }	t_simulation;
+
+void			run(char **argv);
+t_simulation	*init(char **argv);
+bool			parse_int(const char *str, int *result);
+long long		get_current_time(void);
 
 #endif
