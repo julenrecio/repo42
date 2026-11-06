@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 12:37:30 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/04 17:28:52 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/06 13:34:54 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ typedef struct s_simulation
 	int			number_of_compiles_required;
 	int			dongle_cooldown;
 	char		*scheduler;
+	int			initialized_conds;
+	int			initialized_mutexes;
+	int			created_threads;
 	t_coder		*coders;
 	t_dongle	*dongles;
 }	t_simulation;
@@ -68,5 +71,9 @@ void			run(char **argv);
 t_simulation	*init(char **argv);
 bool			parse_int(const char *str, int *result);
 long long		get_current_time(void);
+void			cleanup_simulation(t_simulation *sim);
+bool			create_threads(t_simulation *sim);
+void			wait_threads_end(t_simulation *sim);
+void			get_donlges(t_simulation *sim, t_coder *coder);
 
 #endif

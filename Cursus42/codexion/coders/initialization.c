@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 10:54:16 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/04 17:12:12 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/05 12:39:16 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_simulation	*init_simulation(char *argv[])
 		|| sim->time_to_refactor <= 0)
 	{
 		fprintf(stderr, "Error: Argument parsing error, "
-			"argument with negative value\n");
+			"argument with negative value or zero\n");
 		return (free(sim), NULL);
 	}
 	sim->start_time = get_current_time();
@@ -65,25 +65,34 @@ void	init_coders(t_simulation *sim)
 		i++;
 	}
 	printf("All coders initialized correctly\n");
-	return ;
 }
 
-void	init_dongles(t_simulation *sim)
+bool	init_dongles(t_simulation *sim)
 {
 	int	i;
 
 	i = 0;
+	sim->initialized_conds = 0;
+	sim->initialized_mutexes = 0;
 	while (i < sim->number_of_coders)
 	{
 		if (pthread_mutex_init(&sim->dongles[i].mutex, NULL) != 0)
+		{
 			fprintf(stderr, "Error on mutex init");
+			return (false);
+		}
+		sim->initialized_mutexes++;
 		if (pthread_cond_init(&sim->dongles[i].cond, NULL) != 0)
+		{
 			fprintf(stderr, "Error on cond init");
+			return (false);
+		}
+		sim->initialized_conds++;
 		sim->dongles[i].available = 1;
 		i++;
 	}
 	printf("All dongles initialized correctly\n");
-	return ;
+	return (true);
 }
 
 t_simulation	*init(char **argv)
@@ -94,6 +103,10 @@ t_simulation	*init(char **argv)
 	if (!sim)
 		return (NULL);
 	init_coders(sim);
-	init_dongles(sim);
+	if (!init_dongles(sim))
+	{
+		cleanup_simulation(sim);
+		return (NULL);
+	}
 	return (sim);
 }
