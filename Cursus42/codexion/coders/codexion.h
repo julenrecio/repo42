@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 12:37:30 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/06 13:34:54 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/09 17:50:16 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ typedef struct s_dongle
 	pthread_cond_t	cond;
 	pthread_mutex_t	mutex;
 	bool			available;
+	bool			cooling_down;
+	long long		cooldown_at;
+	t_request		*queue;
 }	t_dongle;
 
 typedef struct s_coder
@@ -66,6 +69,14 @@ typedef struct s_simulation
 	t_coder		*coders;
 	t_dongle	*dongles;
 }	t_simulation;
+
+typedef struct s_request
+{
+	int					coder_id;
+	long long			request_time;
+	long long			deadline;
+	struct s_request	*next;
+}	t_request;
 
 void			run(char **argv);
 t_simulation	*init(char **argv);

@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 10:54:16 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/05 12:39:16 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/09 15:35:40 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ bool	init_dongles(t_simulation *sim)
 	int	i;
 
 	i = 0;
-	sim->initialized_conds = 0;
-	sim->initialized_mutexes = 0;
 	while (i < sim->number_of_coders)
 	{
 		if (pthread_mutex_init(&sim->dongles[i].mutex, NULL) != 0)
@@ -88,7 +86,10 @@ bool	init_dongles(t_simulation *sim)
 			return (false);
 		}
 		sim->initialized_conds++;
-		sim->dongles[i].available = 1;
+		sim->dongles[i].available = true;
+		sim->dongles[i].cooling_down = false;
+		sim->dongles[i].cooldown_at = 0;
+		sim->dongle_cooldown = 0;
 		i++;
 	}
 	printf("All dongles initialized correctly\n");
@@ -103,6 +104,8 @@ t_simulation	*init(char **argv)
 	if (!sim)
 		return (NULL);
 	init_coders(sim);
+	sim->initialized_conds = 0;
+	sim->initialized_mutexes = 0;
 	if (!init_dongles(sim))
 	{
 		cleanup_simulation(sim);
