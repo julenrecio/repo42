@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 10:54:16 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/09 15:35:40 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/10 17:55:18 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_simulation	*init_simulation(char *argv[])
 	sim->dongles = malloc(sizeof(t_dongle) * sim->number_of_coders);
 	if (!sim->dongles)
 		return (free(sim->coders), free(sim), NULL);
+	sim->simulation_ended = false;
 	return (sim);
 }
 
@@ -89,10 +90,10 @@ bool	init_dongles(t_simulation *sim)
 		sim->dongles[i].available = true;
 		sim->dongles[i].cooling_down = false;
 		sim->dongles[i].cooldown_at = 0;
+		sim->dongles[i].queue = NULL;
 		sim->dongle_cooldown = 0;
 		i++;
 	}
-	printf("All dongles initialized correctly\n");
 	return (true);
 }
 

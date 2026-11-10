@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 12:37:30 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/09 17:50:16 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/10 17:56:57 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,14 @@ typedef enum state
 	FINISHED
 }	t_state;
 
+typedef struct s_request
+{
+	int					coder_id;
+	long long			request_time;
+	long long			deadline;
+	struct s_request	*next;
+}	t_request;
+
 typedef struct s_dongle
 {
 	pthread_cond_t	cond;
@@ -54,29 +62,23 @@ typedef struct s_coder
 
 typedef struct s_simulation
 {
-	long long	start_time;
-	int			number_of_coders;
-	int			time_to_burnout;
-	int			time_to_compile;
-	int			time_to_debug;
-	int			time_to_refactor;
-	int			number_of_compiles_required;
-	int			dongle_cooldown;
-	char		*scheduler;
-	int			initialized_conds;
-	int			initialized_mutexes;
-	int			created_threads;
-	t_coder		*coders;
-	t_dongle	*dongles;
+	long long		start_time;
+	int				number_of_coders;
+	int				time_to_burnout;
+	int				time_to_compile;
+	int				time_to_debug;
+	int				time_to_refactor;
+	int				number_of_compiles_required;
+	int				dongle_cooldown;
+	char			*scheduler;
+	int				initialized_conds;
+	int				initialized_mutexes;
+	int				created_threads;
+	bool			simulation_ended;
+	t_coder			*coders;
+	t_dongle		*dongles;
+	pthread_mutex_t	print_mutex;
 }	t_simulation;
-
-typedef struct s_request
-{
-	int					coder_id;
-	long long			request_time;
-	long long			deadline;
-	struct s_request	*next;
-}	t_request;
 
 void			run(char **argv);
 t_simulation	*init(char **argv);
@@ -86,5 +88,11 @@ void			cleanup_simulation(t_simulation *sim);
 bool			create_threads(t_simulation *sim);
 void			wait_threads_end(t_simulation *sim);
 void			get_donlges(t_simulation *sim, t_coder *coder);
+t_request		*queue_get_first(t_request **queue);
+t_request		*create_request(t_coder *coder, t_simulation *sim);
+t_request		*queue_pop(t_request **queue);
+void			print_status(t_simulation *sim, int coder_id, char *message);
+void			queue_insert(t_request **queue, t_request *request,
+					char *scheduler);
 
 #endif
