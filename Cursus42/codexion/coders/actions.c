@@ -6,27 +6,31 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 17:32:32 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/10 17:57:26 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/11 17:42:20 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-void	compile(t_simulation *sim, t_coder *coder)
+void	compile(t_coder *coder)
 {
-	print_status(sim, coder->id, "is compiling");
+	pthread_mutex_lock(&coder->sim->print_mutex);
 	coder->last_compile_time = get_current_time();
-	usleep(sim->time_to_compile);
+	if (!coder->sim->simulation_ended)
+		fprintf(stdout, "%lld %d is compiling\n",
+			get_current_time() - coder->sim->start_time, coder->id);
+	pthread_mutex_unlock(&coder->sim->print_mutex);
+	usleep(coder->sim->time_to_compile * 1000);
 }
 
-void	debug(t_simulation *sim, int coder_id)
+void	debug(t_coder *coder)
 {
-	print_status(sim, coder_id, "is debugging");
-	usleep(sim->time_to_compile);
+	print_status(coder->sim, coder->id, "is debugging");
+	usleep(coder->sim->time_to_debug * 1000);
 }
 
-void	refactor(t_simulation *sim, int coder_id)
+void	refactor(t_coder *coder)
 {
-	print_status(sim, coder_id, "is refactoring");
-	usleep(sim->time_to_compile);
+	print_status(coder->sim, coder->id, "is refactoring");
+	usleep(coder->sim->time_to_refactor * 1000);
 }

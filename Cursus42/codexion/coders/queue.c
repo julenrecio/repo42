@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 17:02:09 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/10 13:32:13 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/11 10:30:28 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	queue_insert(t_request **queue, t_request *request, char *scheduler)
 	current->next = request;
 }
 
-t_request	*create_request(t_coder *coder, t_simulation *sim)
+t_request	*create_request(t_coder *coder)
 {
 	t_request	*request;
 
@@ -64,7 +64,7 @@ t_request	*create_request(t_coder *coder, t_simulation *sim)
 		return (NULL);
 	request->coder_id = coder->id;
 	request->request_time = get_current_time();
-	request->deadline = coder->last_compile_time + sim->time_to_burnout;
+	request->deadline = coder->last_compile_time + coder->sim->time_to_burnout;
 	request->next = NULL;
 	return (request);
 }

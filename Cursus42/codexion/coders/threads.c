@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 11:37:19 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/10 17:57:06 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/11 16:26:26 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,23 @@ void	print_status(t_simulation *sim, int coder_id, char *message)
 void	*coder_routine(void *arg)
 {
 	t_coder	*coder;
+	int		ids[2];
+	int		compile_count;
 
 	coder = (t_coder *)arg;
-	printf("Coder ID: %d\n", coder->id);
+	get_donlge_ids(coder, ids);
+	compile_count = 0;
+	while (compile_count < coder->sim->number_of_compiles_required)
+	{
+		adquire_dongle(&coder->sim->dongles[ids[0]], coder);
+		adquire_dongle(&coder->sim->dongles[ids[1]], coder);
+		compile(coder);
+		release_dongle(&coder->sim->dongles[ids[0]], coder);
+		release_dongle(&coder->sim->dongles[ids[1]], coder);
+		debug(coder);
+		refactor(coder);
+		compile_count++;
+	}
 	return (NULL);
 }
 
@@ -51,7 +65,6 @@ bool	create_threads(t_simulation *sim)
 		sim->created_threads++;
 		i++;
 	}
-	printf("All threads created correctly\n");
 	return (true);
 }
 
@@ -65,6 +78,5 @@ void	wait_threads_end(t_simulation *sim)
 		pthread_join(sim->coders[i].thread, NULL);
 		i++;
 	}
-	printf("All coders finished correctly\n");
 	return ;
 }
