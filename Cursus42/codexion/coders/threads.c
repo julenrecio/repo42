@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 11:37:19 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/11 16:26:26 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/12 14:00:17 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,25 @@ void	*coder_routine(void *arg)
 {
 	t_coder	*coder;
 	int		ids[2];
-	int		compile_count;
 
 	coder = (t_coder *)arg;
 	get_donlge_ids(coder, ids);
-	compile_count = 0;
-	while (compile_count < coder->sim->number_of_compiles_required)
+	while (coder->compile_count < coder->sim->number_of_compiles_required)
 	{
 		adquire_dongle(&coder->sim->dongles[ids[0]], coder);
 		adquire_dongle(&coder->sim->dongles[ids[1]], coder);
 		compile(coder);
+		pthread_mutex_lock(&coder->sim->print_mutex);
+		coder->compile_count++;
+		pthread_mutex_unlock(&coder->sim->print_mutex);
 		release_dongle(&coder->sim->dongles[ids[0]], coder);
 		release_dongle(&coder->sim->dongles[ids[1]], coder);
-		debug(coder);
-		refactor(coder);
-		compile_count++;
+		if (coder->compile_count
+			< coder->sim->number_of_compiles_required)
+		{
+			debug(coder);
+			refactor(coder);
+		}
 	}
 	return (NULL);
 }

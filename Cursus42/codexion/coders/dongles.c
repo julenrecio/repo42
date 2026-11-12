@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 12:19:44 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/11 12:15:39 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/12 11:45:23 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ void	release_dongle(t_dongle *dongle, t_coder *coder)
 	dongle->available = false;
 	dongle->cooling_down = true;
 	dongle->cooldown_at = get_current_time() + coder->sim->dongle_cooldown;
-	print_status(coder->sim, coder->id, "has released a dongle");
 	pthread_cond_broadcast(&dongle->cond);
 	pthread_mutex_unlock(&dongle->mutex);
 }

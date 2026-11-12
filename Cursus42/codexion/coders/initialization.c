@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 10:54:16 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/11 15:19:22 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/12 13:49:21 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_simulation	*init_simulation(char *argv[])
 		return (free(sim), NULL);
 	if (sim->number_of_coders <= 0 || sim->time_to_burnout <= 0
 		|| sim->time_to_compile <= 0 || sim->time_to_debug <= 0
-		|| sim->time_to_refactor <= 0)
+		|| sim->time_to_refactor <= 0 || sim->dongle_cooldown <= 0)
 	{
 		fprintf(stderr, "Error: Argument parsing error, "
 			"argument with negative or zero value\n");
@@ -62,7 +62,6 @@ void	init_coders(t_simulation *sim)
 		sim->coders[i].id = i;
 		sim->coders[i].compile_count = 0;
 		sim->coders[i].last_compile_time = sim->start_time;
-		sim->coders[i].state = WAITING;
 		sim->coders[i].sim = sim;
 		i++;
 	}

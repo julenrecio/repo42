@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 12:37:30 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/11 16:44:09 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/12 13:49:09 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,6 @@
 # include <sys/time.h>
 # include <errno.h>
 # include <limits.h>
-
-typedef enum state
-{
-	WAITING,
-	COMPILING,
-	DEBUGGING,
-	REFACTORING,
-	BURNED_OUT,
-	FINISHED
-}	t_state;
 
 typedef struct s_request
 {
@@ -57,7 +47,6 @@ typedef struct s_coder
 {
 	int				id;
 	int				compile_count;
-	t_state			state;
 	long long		last_compile_time;
 	pthread_t		thread;
 	t_simulation	*sim;
@@ -101,7 +90,7 @@ void			print_status(t_simulation *sim, int coder_id, char *message);
 void			compile(t_coder *coder);
 void			debug(t_coder *coder);
 void			refactor(t_coder *coder);
-void			create_monitor_thread(t_simulation *sim);
+bool			create_monitor_thread(t_simulation *sim);
 void			wait_monitor_end(t_simulation *sim);
 void			queue_insert(t_request **queue, t_request *request,
 					char *scheduler);
