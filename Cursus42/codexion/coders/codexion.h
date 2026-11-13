@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 12:37:30 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/12 13:49:09 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/13 13:29:35 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_simulation
 	t_coder			*coders;
 	t_dongle		*dongles;
 	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	global_mutex;
 	pthread_t		monitor;
 }	t_simulation;
 
@@ -80,7 +81,7 @@ long long		get_current_time(void);
 void			cleanup_simulation(t_simulation *sim);
 bool			create_threads(t_simulation *sim);
 void			wait_threads_end(t_simulation *sim);
-void			get_donlge_ids(t_coder *coder, int ids[2]);
+void			get_dongle_ids(t_coder *coder, int ids[2]);
 void			adquire_dongle(t_dongle *dongle, t_coder *coder);
 void			release_dongle(t_dongle *dongle, t_coder *coder);
 t_request		*queue_get_first(t_request **queue);

@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 10:54:16 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/12 13:49:21 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/13 13:31:44 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	init_coders(t_simulation *sim)
 	i = 0;
 	while (i < sim->number_of_coders)
 	{
-		sim->coders[i].id = i;
+		sim->coders[i].id = i + 1;
 		sim->coders[i].compile_count = 0;
 		sim->coders[i].last_compile_time = sim->start_time;
 		sim->coders[i].sim = sim;
@@ -105,7 +105,8 @@ t_simulation	*init(char **argv)
 	init_coders(sim);
 	sim->initialized_conds = 0;
 	sim->initialized_mutexes = 0;
-	if (pthread_mutex_init(&sim->print_mutex, NULL) != 0)
+	if (pthread_mutex_init(&sim->print_mutex, NULL) != 0
+		&& pthread_mutex_init(&sim->global_mutex, NULL) != 0)
 		return (NULL);
 	if (!init_dongles(sim))
 	{

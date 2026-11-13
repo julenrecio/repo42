@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 11:37:19 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/12 14:00:17 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/13 13:36:08 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,15 @@ void	print_status(t_simulation *sim, int coder_id, char *message)
 {
 	long long	time;
 
-	pthread_mutex_lock(&sim->print_mutex);
+	pthread_mutex_lock(&sim->global_mutex);
 	if (!sim->simulation_ended)
 	{
+		pthread_mutex_lock(&sim->print_mutex);
 		time = get_current_time() - sim->start_time;
 		fprintf(stdout, "%lld %d %s\n", time, coder_id, message);
+		pthread_mutex_unlock(&sim->print_mutex);
 	}
-	pthread_mutex_unlock(&sim->print_mutex);
+	pthread_mutex_unlock(&sim->global_mutex);
 }
 
 void	*coder_routine(void *arg)
@@ -31,15 +33,15 @@ void	*coder_routine(void *arg)
 	int		ids[2];
 
 	coder = (t_coder *)arg;
-	get_donlge_ids(coder, ids);
+	get_dongle_ids(coder, ids);
 	while (coder->compile_count < coder->sim->number_of_compiles_required)
 	{
 		adquire_dongle(&coder->sim->dongles[ids[0]], coder);
 		adquire_dongle(&coder->sim->dongles[ids[1]], coder);
 		compile(coder);
-		pthread_mutex_lock(&coder->sim->print_mutex);
+		pthread_mutex_lock(&coder->sim->global_mutex);
 		coder->compile_count++;
-		pthread_mutex_unlock(&coder->sim->print_mutex);
+		pthread_mutex_unlock(&coder->sim->global_mutex);
 		release_dongle(&coder->sim->dongles[ids[0]], coder);
 		release_dongle(&coder->sim->dongles[ids[1]], coder);
 		if (coder->compile_count

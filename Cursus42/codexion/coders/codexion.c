@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 12:37:38 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/04 17:11:17 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/13 13:24:41 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,5 @@ int	main(int argc, char **argv)
 			"time_to_debug time_to_refactor number_of_compiles_required "
 			"dongle_cooldown scheduler\n");
 	}
+	return (0);
 }

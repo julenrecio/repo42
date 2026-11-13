@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 12:19:44 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/12 11:45:23 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/13 13:25:45 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ void	adquire_dongle(t_dongle *dongle, t_coder *coder)
 	pthread_mutex_unlock(&dongle->mutex);
 }
 
-void	get_donlge_ids(t_coder *coder, int ids[2])
+void	get_dongle_ids(t_coder *coder, int ids[2])
 {
 	int	temp;
 
-	ids[0] = coder->id;
-	ids[1] = (coder->id + 1) % coder->sim->number_of_coders;
+	ids[0] = coder->id - 1;
+	ids[1] = coder->id % coder->sim->number_of_coders;
 	if (ids[0] > ids[1])
 	{
 		temp = ids[0];

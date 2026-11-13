@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 15:59:34 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/12 13:54:37 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/13 13:33:27 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	end_simulation(t_simulation *sim, int coder_id, bool burnout)
 	int		j;
 	bool	ended;
 
-	pthread_mutex_lock(&sim->print_mutex);
+	pthread_mutex_lock(&sim->global_mutex);
 	ended = sim->simulation_ended;
 	if (!ended)
 	{
@@ -42,7 +42,7 @@ void	end_simulation(t_simulation *sim, int coder_id, bool burnout)
 			fprintf(stdout, "%lld %d %s\n", get_current_time()
 				- sim->start_time, coder_id, "burned out");
 	}
-	pthread_mutex_unlock(&sim->print_mutex);
+	pthread_mutex_unlock(&sim->global_mutex);
 	if (ended)
 		return ;
 	j = 0;
@@ -65,15 +65,15 @@ void	*monitor_routine(void *arg)
 	sim = (t_simulation *)arg;
 	while (true)
 	{
-		pthread_mutex_lock(&sim->print_mutex);
+		pthread_mutex_lock(&sim->global_mutex);
 		if (sim->simulation_ended)
 		{
-			pthread_mutex_unlock(&sim->print_mutex);
+			pthread_mutex_unlock(&sim->global_mutex);
 			break ;
 		}
 		if (all_coders_finished(sim))
 		{
-			pthread_mutex_unlock(&sim->print_mutex);
+			pthread_mutex_unlock(&sim->global_mutex);
 			end_simulation(sim, -1, false);
 			break ;
 		}
@@ -90,7 +90,7 @@ void	*monitor_routine(void *arg)
 			}
 			i++;
 		}
-		pthread_mutex_unlock(&sim->print_mutex);
+		pthread_mutex_unlock(&sim->global_mutex);
 		if (burnout)
 		{
 			end_simulation(sim, coder_id, true);
@@ -106,9 +106,9 @@ bool	create_monitor_thread(t_simulation *sim)
 	if (pthread_create(&sim->monitor, NULL, monitor_routine, sim) != 0)
 	{
 		printf("Error creating monitor thread");
-		return (false);	
+		return (false);
 	}
-	return true;
+	return (true);
 }
 
 void	wait_monitor_end(t_simulation *sim)

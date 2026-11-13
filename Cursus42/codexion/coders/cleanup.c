@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 11:33:52 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/11 15:20:18 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/13 13:30:28 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ void	cleanup_simulation(t_simulation *sim)
 	free(sim->dongles);
 	free(sim->coders);
 	pthread_mutex_destroy(&sim->print_mutex);
+	pthread_mutex_destroy(&sim->global_mutex);
 	free(sim);
 }
