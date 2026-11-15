@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 12:37:30 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/15 21:34:06 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/16 00:17:16 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void			cleanup_simulation(t_simulation *sim);
 bool			create_threads(t_simulation *sim);
 void			wait_threads_end(t_simulation *sim);
 void			get_dongle_ids(t_coder *coder, int ids[2]);
-void			adquire_dongle(t_dongle *dongle, t_coder *coder);
+bool			adquire_dongle(t_dongle *dongle, t_coder *coder);
 void			release_dongle(t_dongle *dongle, t_coder *coder);
 t_request		*queue_get_first(t_request **queue);
 t_request		*create_request(t_coder *coder);
@@ -90,6 +90,7 @@ void			debug(t_coder *coder);
 void			refactor(t_coder *coder);
 void			*monitor_routine(void *arg);
 void			end_simulation(t_simulation *sim, int coder_id, bool burnout);
+int				check_vars(t_coder *coder, bool check_count);
 void			queue_insert(t_request **queue, t_request *request,
 					char *scheduler);
 

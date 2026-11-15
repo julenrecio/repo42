@@ -6,20 +6,11 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 12:19:44 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/14 21:34:13 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/16 00:15:23 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
-
-struct timespec	ms_to_timespec(long long milliseconds)
-{
-	struct timespec	deadline;
-
-	deadline.tv_sec = milliseconds / 1000;
-	deadline.tv_nsec = (milliseconds % 1000) * 1000000;
-	return (deadline);
-}
 
 void	handle_cooldown(t_dongle *dongle)
 {
@@ -27,7 +18,8 @@ void	handle_cooldown(t_dongle *dongle)
 
 	if (get_current_time() < dongle->cooldown_at)
 	{
-		deadline = ms_to_timespec(dongle->cooldown_at);
+		deadline.tv_sec = dongle->cooldown_at / 1000;
+		deadline.tv_nsec = (dongle->cooldown_at % 1000) * 1000000;
 		pthread_cond_timedwait(&dongle->cond, &dongle->mutex,
 			&deadline);
 	}
@@ -40,28 +32,44 @@ void	handle_cooldown(t_dongle *dongle)
 	}
 }
 
-void	adquire_dongle(t_dongle *dongle, t_coder *coder)
+static void	remove_request(t_request **queue, t_request *target)
 {
-	t_request		*request;
+	t_request	**curr;
+
+	curr = queue;
+	while (*curr && *curr != target)
+		curr = &(*curr)->next;
+	if (*curr == target)
+		*curr = target->next;
+}
+
+bool	adquire_dongle(t_dongle *dongle, t_coder *coder)
+{
+	t_request	*request;
 
 	request = create_request(coder);
 	if (!request)
-		return ;
+		return (false);
 	pthread_mutex_lock(&dongle->mutex);
 	queue_insert(&dongle->queue, request, coder->sim->scheduler);
 	while ((queue_get_first(&dongle->queue) != request || !dongle->available)
-		&& !coder->sim->simulation_ended)
+		&& check_vars(coder, false) == 0)
 	{
 		if (dongle->cooling_down)
 			handle_cooldown(dongle);
 		else
 			pthread_cond_wait(&dongle->cond, &dongle->mutex);
 	}
+	if (check_vars(coder, false) != 0)
+	{
+		remove_request(&dongle->queue, request);
+		return (free(request), pthread_mutex_unlock(&dongle->mutex), false);
+	}
 	queue_pop(&dongle->queue);
 	dongle->available = false;
 	free(request);
 	print_status(coder->sim, coder->id, "has taken a dongle");
-	pthread_mutex_unlock(&dongle->mutex);
+	return (pthread_mutex_unlock(&dongle->mutex), true);
 }
 
 void	get_dongle_ids(t_coder *coder, int ids[2])

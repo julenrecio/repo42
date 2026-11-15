@@ -6,20 +6,20 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 12:37:38 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/15 21:34:00 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/15 23:30:40 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-static void	run(char **argv)
+static bool	run(char **argv)
 {
 	t_simulation	*sim;
 	bool			monitor_created;
 
 	sim = init(argv);
 	if (!sim)
-		return ;
+		return (false);
 	monitor_created = false;
 	if (!create_threads(sim))
 		end_simulation(sim, -1, false);
@@ -34,6 +34,7 @@ static void	run(char **argv)
 	if (monitor_created)
 		pthread_join(sim->monitor, NULL);
 	cleanup_simulation(sim);
+	return (true);
 }
 
 int	main(int argc, char **argv)
@@ -42,10 +43,16 @@ int	main(int argc, char **argv)
 	{
 		if (strcmp(argv[argc - 1], "fifo") == 0
 			|| strcmp(argv[argc - 1], "edf") == 0)
-			run(argv);
+		{
+			if (!run(argv))
+				return (1);
+		}
 		else
+		{
 			fprintf(stderr, "Error: schedule (last arg) must be "
 				"'fifo' or 'edf'\n");
+			return (1);
+		}
 	}
 	else
 	{
@@ -54,6 +61,7 @@ int	main(int argc, char **argv)
 			"\n./codexion number_of_coders time_to_burnout time_to_compile "
 			"time_to_debug time_to_refactor number_of_compiles_required "
 			"dongle_cooldown scheduler\n");
+		return (1);
 	}
 	return (0);
 }
