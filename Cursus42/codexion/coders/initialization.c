@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 10:54:16 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/13 13:31:44 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/15 21:13:06 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool	parse_arguments(char **argv, t_simulation *sim)
 		&& parse_int(argv[7], &sim->dongle_cooldown));
 }
 
-t_simulation	*init_simulation(char *argv[])
+t_simulation	*init_simulation(char **argv)
 {
 	t_simulation	*sim;
 
@@ -34,10 +34,10 @@ t_simulation	*init_simulation(char *argv[])
 		return (free(sim), NULL);
 	if (sim->number_of_coders <= 0 || sim->time_to_burnout <= 0
 		|| sim->time_to_compile <= 0 || sim->time_to_debug <= 0
-		|| sim->time_to_refactor <= 0 || sim->dongle_cooldown <= 0)
+		|| sim->time_to_refactor <= 0 || sim->dongle_cooldown < 0
+		|| sim->number_of_compiles_required <= 0)
 	{
-		fprintf(stderr, "Error: Argument parsing error, "
-			"argument with negative or zero value\n");
+		fprintf(stderr, "Error: Argument with negative or zero value\n");
 		return (free(sim), NULL);
 	}
 	sim->start_time = get_current_time();
@@ -106,7 +106,7 @@ t_simulation	*init(char **argv)
 	sim->initialized_conds = 0;
 	sim->initialized_mutexes = 0;
 	if (pthread_mutex_init(&sim->print_mutex, NULL) != 0
-		&& pthread_mutex_init(&sim->global_mutex, NULL) != 0)
+		|| pthread_mutex_init(&sim->global_mutex, NULL) != 0)
 		return (NULL);
 	if (!init_dongles(sim))
 	{

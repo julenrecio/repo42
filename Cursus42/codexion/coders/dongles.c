@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 12:19:44 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/13 13:25:45 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/14 21:34:13 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void	adquire_dongle(t_dongle *dongle, t_coder *coder)
 		return ;
 	pthread_mutex_lock(&dongle->mutex);
 	queue_insert(&dongle->queue, request, coder->sim->scheduler);
-	while (queue_get_first(&dongle->queue) != request || !dongle->available)
+	while ((queue_get_first(&dongle->queue) != request || !dongle->available)
+		&& !coder->sim->simulation_ended)
 	{
 		if (dongle->cooling_down)
 			handle_cooldown(dongle);

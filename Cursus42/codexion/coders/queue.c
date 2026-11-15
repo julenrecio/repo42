@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 17:02:09 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/11 10:30:28 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/14 21:53:09 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,9 @@ t_request	*create_request(t_coder *coder)
 		return (NULL);
 	request->coder_id = coder->id;
 	request->request_time = get_current_time();
+	pthread_mutex_lock(&coder->sim->global_mutex);
 	request->deadline = coder->last_compile_time + coder->sim->time_to_burnout;
+	pthread_mutex_unlock(&coder->sim->global_mutex);
 	request->next = NULL;
 	return (request);
 }

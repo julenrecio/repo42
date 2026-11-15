@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 12:37:30 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/13 13:29:35 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/15 21:34:06 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 # include <stdbool.h>
 # include <unistd.h>
 # include <sys/time.h>
-# include <errno.h>
-# include <limits.h>
 
 typedef struct s_request
 {
@@ -74,7 +72,6 @@ typedef struct s_simulation
 	pthread_t		monitor;
 }	t_simulation;
 
-void			run(char **argv);
 t_simulation	*init(char **argv);
 bool			parse_int(const char *str, int *result);
 long long		get_current_time(void);
@@ -91,8 +88,8 @@ void			print_status(t_simulation *sim, int coder_id, char *message);
 void			compile(t_coder *coder);
 void			debug(t_coder *coder);
 void			refactor(t_coder *coder);
-bool			create_monitor_thread(t_simulation *sim);
-void			wait_monitor_end(t_simulation *sim);
+void			*monitor_routine(void *arg);
+void			end_simulation(t_simulation *sim, int coder_id, bool burnout);
 void			queue_insert(t_request **queue, t_request *request,
 					char *scheduler);
 

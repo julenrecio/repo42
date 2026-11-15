@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 11:37:19 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/13 13:36:08 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/15 20:04:44 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,16 @@ void	print_status(t_simulation *sim, int coder_id, char *message)
 	pthread_mutex_unlock(&sim->global_mutex);
 }
 
+static int	get_compile_count(t_coder *coder)
+{
+	int	count;
+
+	pthread_mutex_lock(&coder->sim->global_mutex);
+	count = coder->compile_count;
+	pthread_mutex_unlock(&coder->sim->global_mutex);
+	return (count);
+}
+
 void	*coder_routine(void *arg)
 {
 	t_coder	*coder;
@@ -34,7 +44,8 @@ void	*coder_routine(void *arg)
 
 	coder = (t_coder *)arg;
 	get_dongle_ids(coder, ids);
-	while (coder->compile_count < coder->sim->number_of_compiles_required)
+	while (get_compile_count(coder) < coder->sim->number_of_compiles_required
+		&& !coder->sim->simulation_ended)
 	{
 		adquire_dongle(&coder->sim->dongles[ids[0]], coder);
 		adquire_dongle(&coder->sim->dongles[ids[1]], coder);
@@ -44,7 +55,7 @@ void	*coder_routine(void *arg)
 		pthread_mutex_unlock(&coder->sim->global_mutex);
 		release_dongle(&coder->sim->dongles[ids[0]], coder);
 		release_dongle(&coder->sim->dongles[ids[1]], coder);
-		if (coder->compile_count
+		if (get_compile_count(coder)
 			< coder->sim->number_of_compiles_required)
 		{
 			debug(coder);

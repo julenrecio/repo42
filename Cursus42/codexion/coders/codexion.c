@@ -6,11 +6,35 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 12:37:38 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/13 13:24:41 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/15 21:34:00 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
+
+static void	run(char **argv)
+{
+	t_simulation	*sim;
+	bool			monitor_created;
+
+	sim = init(argv);
+	if (!sim)
+		return ;
+	monitor_created = false;
+	if (!create_threads(sim))
+		end_simulation(sim, -1, false);
+	else if (pthread_create(&sim->monitor, NULL, monitor_routine, sim) != 0)
+	{
+		fprintf(stderr, "Error creating monitor thread");
+		end_simulation(sim, -1, false);
+	}
+	else
+		monitor_created = true;
+	wait_threads_end(sim);
+	if (monitor_created)
+		pthread_join(sim->monitor, NULL);
+	cleanup_simulation(sim);
+}
 
 int	main(int argc, char **argv)
 {
@@ -25,7 +49,7 @@ int	main(int argc, char **argv)
 	}
 	else
 	{
-		fprintf(stderr, "Error, too few arguments, args must be in the "
+		fprintf(stderr, "Error, bad arguments, args must be in the "
 			"following format:"
 			"\n./codexion number_of_coders time_to_burnout time_to_compile "
 			"time_to_debug time_to_refactor number_of_compiles_required "

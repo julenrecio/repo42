@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 10:54:09 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/04 17:26:26 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/15 21:31:36 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,28 @@ long long	get_current_time(void)
 
 bool	ft_atol(const char *str, long *result)
 {
-	char	*endptr;
-	long	value;
+	int		sign;
+	long	num;
 
-	errno = 0;
-	value = strtol(str, &endptr, 10);
-	if (errno == ERANGE || str == endptr || *endptr != '\0')
+	sign = 1;
+	num = 0;
+	while (*str == ' ' || (*str >= 9 && *str <= 13))
+		str++;
+	if (*str == '-' || *str == '+')
+		if (*str++ == '-')
+			sign = -1;
+	if (!(*str >= '0' && *str <= '9'))
 		return (false);
-	*result = value;
+	while (*str >= '0' && *str <= '9')
+	{
+		num = num * 10 + (*str++ - '0');
+		if ((sign == 1 && num > 2147483647)
+			|| (sign == -1 && - num < -2147483648))
+			return (false);
+	}
+	if (*str)
+		return (false);
+	*result = num * sign;
 	return (true);
 }
 
@@ -40,13 +54,7 @@ bool	parse_int(const char *str, int *result)
 	if (!ft_atol(str, &value))
 	{
 		fprintf(stderr, "Error: Argument parsing error, "
-			"non integer argument \n");
-		return (false);
-	}
-	if (value < INT_MIN || value > INT_MAX)
-	{
-		fprintf(stderr, "Error: Argument parsing error, "
-			"out of bounds integer \n");
+			"non integer or invalid integer argument\n");
 		return (false);
 	}
 	*result = (int)value;

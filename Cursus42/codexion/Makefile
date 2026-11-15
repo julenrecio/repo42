@@ -1,9 +1,8 @@
 NAME=codexion
 CC=cc
 CFLAGS=-Wall -Wextra -Werror -pthread
-SOURCES=coders/codexion.c coders/initialization.c coders/parsing.c coders/simulation.c \
-		coders/cleanup.c coders/threads.c coders/dongles.c coders/queue.c coders/actions.c \
-		coders/monitor.c
+SOURCES=coders/codexion.c coders/initialization.c coders/parsing.c coders/monitor.c \
+		coders/cleanup.c coders/threads.c coders/dongles.c coders/queue.c coders/actions.c
 OBJECTS=$(SOURCES:.c=.o)
 
 all: $(NAME)
@@ -11,7 +10,7 @@ all: $(NAME)
 $(NAME): $(OBJECTS)
 	$(CC) $(CFLAGS) $(OBJECTS) -o $(NAME)
 
-%.o: %.c
+%.o: %.c coders/codexion.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
