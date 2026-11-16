@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 10:54:09 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/15 21:31:36 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/16 12:24:10 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ long long	get_current_time(void)
 	return (tv.tv_sec * (long long)1000 + tv.tv_usec / 1000);
 }
 
-bool	ft_atol(const char *str, long *result)
+static bool	ft_atol(const char *str, long *result)
 {
 	int		sign;
 	long	num;

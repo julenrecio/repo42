@@ -6,13 +6,13 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/04 10:54:16 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/15 21:13:06 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/16 12:21:10 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-bool	parse_arguments(char **argv, t_simulation *sim)
+static bool	parse_arguments(char **argv, t_simulation *sim)
 {
 	return (parse_int(argv[1], &sim->number_of_coders)
 		&& parse_int(argv[2], &sim->time_to_burnout)
@@ -23,7 +23,7 @@ bool	parse_arguments(char **argv, t_simulation *sim)
 		&& parse_int(argv[7], &sim->dongle_cooldown));
 }
 
-t_simulation	*init_simulation(char **argv)
+static t_simulation	*init_simulation(char **argv)
 {
 	t_simulation	*sim;
 
@@ -52,7 +52,7 @@ t_simulation	*init_simulation(char **argv)
 	return (sim);
 }
 
-void	init_coders(t_simulation *sim)
+static void	init_coders(t_simulation *sim)
 {
 	int	i;
 
@@ -67,7 +67,7 @@ void	init_coders(t_simulation *sim)
 	}
 }
 
-bool	init_dongles(t_simulation *sim)
+static bool	init_dongles(t_simulation *sim)
 {
 	int	i;
 
@@ -105,10 +105,13 @@ t_simulation	*init(char **argv)
 	init_coders(sim);
 	sim->initialized_conds = 0;
 	sim->initialized_mutexes = 0;
-	if (pthread_mutex_init(&sim->print_mutex, NULL) != 0
-		|| pthread_mutex_init(&sim->global_mutex, NULL) != 0)
-		return (NULL);
-	if (!init_dongles(sim))
+	sim->print_mutex_init = (pthread_mutex_init(&sim->print_mutex, NULL) == 0);
+	sim->global_mutex_init = false;
+	if (sim->print_mutex_init)
+		sim->global_mutex_init = (pthread_mutex_init(&sim->global_mutex,
+					NULL) == 0);
+	if (!sim->print_mutex_init || !sim->global_mutex_init
+		|| !init_dongles(sim))
 	{
 		cleanup_simulation(sim);
 		return (NULL);

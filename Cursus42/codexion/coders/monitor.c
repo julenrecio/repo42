@@ -6,13 +6,13 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 15:59:34 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/15 20:50:00 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/16 12:23:48 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-bool	all_coders_finished(t_simulation *sim)
+static bool	all_coders_finished(t_simulation *sim)
 {
 	int	i;
 
@@ -64,7 +64,7 @@ void	end_simulation(t_simulation *sim, int coder_id, bool burnout)
 		wake_all_dongles(sim);
 }
 
-bool	check_monitor_conditions(t_simulation *sim)
+static bool	check_monitor_conditions(t_simulation *sim)
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/13 12:37:30 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/16 00:17:16 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/16 11:47:41 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ typedef struct s_simulation
 	int				initialized_mutexes;
 	int				created_threads;
 	bool			simulation_ended;
+	bool			print_mutex_init;
+	bool			global_mutex_init;
 	t_coder			*coders;
 	t_dongle		*dongles;
 	pthread_mutex_t	print_mutex;

@@ -6,7 +6,7 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 11:37:19 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/16 00:45:18 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/16 12:42:07 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	check_vars(t_coder *coder, bool check_count)
 	return (count);
 }
 
-void	*coder_routine(void *arg)
+static void	*coder_routine(void *arg)
 {
 	t_coder	*coder;
 	int		ids[2];
@@ -65,7 +65,8 @@ void	*coder_routine(void *arg)
 		if (check_vars(coder, true) >= coder->sim->number_of_compiles_required)
 			break ;
 		debug(coder);
-		refactor(coder);
+		if (check_vars(coder, false) == 0)
+			refactor(coder);
 	}
 	return (NULL);
 }

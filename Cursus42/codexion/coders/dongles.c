@@ -6,13 +6,13 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 12:19:44 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/16 00:15:23 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/16 12:20:13 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-void	handle_cooldown(t_dongle *dongle)
+static void	handle_cooldown(t_dongle *dongle)
 {
 	struct timespec	deadline;
 

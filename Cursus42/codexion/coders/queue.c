@@ -6,13 +6,13 @@
 /*   By: jrecio-t <jrecio-t@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 17:02:09 by jrecio-t          #+#    #+#             */
-/*   Updated: 2026/11/14 21:53:09 by jrecio-t         ###   ########.fr       */
+/*   Updated: 2026/11/16 12:25:12 by jrecio-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-bool	has_priority(t_request *a, t_request *b, char *scheduler)
+static bool	has_priority(t_request *a, t_request *b, char *scheduler)
 {
 	if (strcmp(scheduler, "fifo") == 0)
 		return (a->request_time < b->request_time);
