@@ -15,7 +15,8 @@ INSTALLED = $(VENV)/.installed
 
 all: run
 
-$(PYTHON): 
+$(PYTHON):
+	@python3 -c 'import sys; sys.exit(f"Python 3.11 is the minimum python version required") if sys.version_info < (3, 11) else None'
 	python3 -m venv $(VENV)
 	$(PIP) install --upgrade pip
 
