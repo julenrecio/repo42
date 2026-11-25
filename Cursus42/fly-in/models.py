@@ -1,31 +1,34 @@
-from typing import Any
 from enum import StrEnum
 from pydantic import BaseModel, Field, model_validator
 
 
-class ZoneType(StrEnum):
+class ZoneRole(StrEnum):
     START = "start_hub"
     HUB = "hub"
     END = "end_hub"
 
 
-class Metadata(BaseModel):
-    key: str = Field(min_length=1)
-    value: Any
+class ZoneType(StrEnum):
+    NORMAL = "normal"
+    BLOCK = "blocked"
+    RESTRICT = "restricted"
+    PRIORITY = "priority"
 
 
 class Zone(BaseModel):
     name: str = Field(min_length=1)
     x: int
     y: int
-    zone_type: ZoneType
-    metadata: list[Metadata] = Field(default_factory=list[Metadata])
+    role: ZoneRole
+    type: ZoneType = Field(default=ZoneType.NORMAL)
+    color: str | None = None
+    max_drones: int = Field(default=1, ge=1)
 
 
 class Connection(BaseModel):
     zone_from: Zone
     zone_to: Zone
-    metadata: list[Metadata] = Field(default_factory=list[Metadata])
+    max_link_capacity: int = Field(default=1, ge=1)
 
     @model_validator(mode='after')
     def check_valid_connection(self) -> "Connection":
@@ -60,9 +63,9 @@ class Map(BaseModel):
         start_hubs: int = 0
         end_hubs: int = 0
         for zone in self.zones:
-            if zone.zone_type == ZoneType.START:
+            if zone.role == ZoneRole.START:
                 start_hubs += 1
-            if zone.zone_type == ZoneType.END:
+            if zone.role == ZoneRole.END:
                 end_hubs += 1
         if start_hubs != 1 or end_hubs != 1:
             raise ValueError("There must be exactly one start_hub and "
