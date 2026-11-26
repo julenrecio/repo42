@@ -1,5 +1,5 @@
+from map_parser import parse_map, MapParseError
 from models import Map
-from map_parser import parse_map
 import sys
 
 
@@ -8,13 +8,14 @@ def main() -> None:
     try:
         with open(file_name, 'r') as map_file:
             content: list[str] = map_file.readlines()
+        map: Map = parse_map(content)
     except OSError as e:
-        print(f"Error while attempting to read '{file_name}' file: {e}",
-              file=sys.stderr)
-        sys.exit(1)
+        sys.exit("Error while attempting to read '{}' file: {}"
+                 .format(file_name, e))
+    except MapParseError as e:
+        sys.exit("Map parse error:\n{}".format(e))
 
-    map: Map = parse_map(content)
-    print(map)
+    print("Map loaded:\n", map)
 
 
 if __name__ == "__main__":
