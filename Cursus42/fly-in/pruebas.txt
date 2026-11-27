@@ -1,0 +1,67 @@
+# ==============================================================================
+# 1. MAPA VÁLIDO COMPLETO (Debe cargar sin errores)
+# Incluye: comentarios en línea, espacios extra, todos los roles y tipos de zona,
+# metadatos opcionales en zonas y conexiones, y conexiones declaradas en distinto orden.
+# ==============================================================================
+
+nb_drones: 5  # Comentario en línea tras nb_drones
+
+# Conexión declarada antes que las zonas para probar la doble pasada
+# connection: start-hub_priority [max_link_capacity=3]
+
+start_hub: start 0 0 [color=green max_drones=5]
+hub: hub_priority 1 2 [zone=priority color=yellow max_drones=2]
+hub: hub_restricted 2 2 [zone=restricted color=orange]
+hub: hub_blocked 1 -1 [zone=blocked color=gray]
+hub: hub_default 3 1
+# end_hub: goal 4 0 [color=red max_drones=5]
+
+connection: hub_priority-hub_restricted
+connection: hub_restricted-hub_default [max_link_capacity=2]
+connection: hub_default-hub_blocked
+
+
+# ==============================================================================
+# 2. BATERÍA DE ERRORES CONTROLADOS
+# Descomenta UNA línea (o bloque) cada vez para verificar que MapParseError
+# reporta el mensaje y el número de línea esperado.
+# ==============================================================================
+
+# --- Errores de directiva y formato general ---
+# directiva_inventada: valor 1 2
+# linea sin dos puntos
+# nb_drones: 3
+# nb_drones: cuatro
+# nb_drones: 0
+# nb_drones: -2
+
+# --- Errores de metadatos ---
+# hub: meta_sin_cerrar 10 10 [color=blue
+# hub: meta_sin_abrir 10 11 color=blue]
+# hub: meta_vacia 10 12 []
+# hub: meta_caracter_invalido 10 13 [color=blue!]
+# hub: meta_sin_igual 10 14 [color]
+# hub: meta_valor_vacio 10 15 [color=]
+# hub: meta_clave_invalida 10 16 [velocidad=100]
+# hub: meta_duplicada 10 17 [color=red color=blue]
+# hub: meta_tipo_invalido 10 18 [zone=volcan]
+# hub: meta_max_drones_cero 10 19 [max_drones=0]
+# hub: meta_max_drones_texto 10 20 [max_drones=muchos]
+
+# --- Errores de zonas ---
+# hub: pocos_args 10
+# hub: muchos_args 10 20 30
+# hub: coord_no_entera 10.5 20
+# hub: start 20 20
+# hub: coords_repetidas 0 0
+# start_hub: segundo_start 30 30
+# end_hub: segundo_end 31 31
+
+# --- Errores de conexiones ---
+# connection: start hub_default
+# connection: zona-con-guion-start
+# connection: start-zona_inexistente
+# connection: start-start
+# connection: hub_priority-start
+# connection: hub_default-goal [max_link_capacity=0]
+# connection: hub_default-goal [color=blue]
